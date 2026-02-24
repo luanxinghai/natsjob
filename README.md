@@ -13,8 +13,8 @@ natsjob 是一款基于 NATS 消息中间件 + Go 语言构建的分布式定时
 
 github：
 - 服务端：[natsjob](https://github.com/luanxinghai/natsjob)
-- web：[natsjob-web](https://github.com/luanxinghai/natsjob/web)
-- 手册: [natsjob-docs](https://github.com/luanxinghai/natsjob/docs)
+- web：[natsjob-web](https://github.com/luanxinghai/natsjob/tree/main/web)
+- 手册: [natsjob-docs](https://github.com/luanxinghai/natsjob/tree/main/docs)
 
 #### 设计核心理念
 
@@ -233,7 +233,7 @@ natsjob 底层采用 `github.com/robfig/cron/v3` 库实现定时任务调度，*
 
 # demo示例
 ## java (兼容各版本JDK)
-<https://github.com/luanxinghai/natsjob/docs/examples>
+<https://github.com/luanxinghai/natsjob/tree/main/docs/examples>
 
 **消费模式说明**
 本文档中提供的所有示例均基于**临时消费模式**，该模式轻量、高效，能够满足绝大多数业务场景的需求。
