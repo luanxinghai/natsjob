@@ -1,0 +1,1 @@
+import{It as e,_t as t,gt as n,jt as r,kt as i,ut as a}from"./main-DLAKPujJ.js";var o={__name:`SpaceGap`,props:{count:{default:2,type:Number},countModifiers:{}},emits:[`update:count`],setup(o){let s=e(o,`count`);return(e,o)=>(i(!0),n(a,null,r(s.value,e=>(i(),n(a,null,[t(` \xA0 `)],64))),256))}};export{o as t};

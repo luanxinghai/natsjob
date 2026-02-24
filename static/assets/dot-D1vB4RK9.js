@@ -1,0 +1,1 @@
+import{vt as e,yt as t}from"./main-DLAKPujJ.js";var n=t({name:`Dot`,props:{animation:{type:Boolean,default:!0},type:{type:String,default:`primary`}},setup(t){return()=>e(`span`,{class:[`gi-dot`,{"gi-dot-processing":t.animation},`gi-dot-${t.type}`]},null)}});export{n as t};

@@ -1,0 +1,1 @@
+import{gt as e,kt as t}from"./main-DLAKPujJ.js";import{t as n}from"./_plugin-vue_export-helper-DAAOZMkq.js";var r={},i={class:`content`};function a(n,r){return t(),e(`div`,i)}var o=n(r,[[`render`,a],[`__scopeId`,`data-v-e108e62d`]]);export{o as default};

@@ -1,0 +1,124 @@
+.table-box {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .table-search {
+    display: flex;
+    
+    .search-operation {
+      white-space: nowrap;
+      margin-left: 15px;
+
+      .search-isOpen {
+        margin-left: 20px;
+      }
+    }
+  }
+
+
+  .table-header {
+    .header-button-lf {
+      float: left;
+
+      .el-button {
+        margin-bottom: 20px;
+      }
+    }
+
+    .header-button-ri {
+      float: right;
+
+      .el-button {
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+  .el-table {
+    flex: 1;
+
+    .el-table__header th,
+    .el-table__body td {
+      text-align: center;
+    }
+
+    .el-table__header th {
+      color: #252525b4;
+    }
+
+    .table-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+
+ 
+    .el-table__header .el-table__cell>.cell {
+      white-space: nowrap;
+    }
+
+    .el-table__row {
+      // height: 52px;
+    }
+
+    .el-button--text {
+      height: 0;
+    }
+
+    .el-table__empty-block {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .table-empty {
+      line-height: 30px;
+    }
+
+    .el-table__body-wrapper {
+      height: calc(100% - 50px) !important;
+    }
+
+    .el-table__inner-wrapper,
+    .el-scrollbar__wrap {
+      height: 100% !important;
+    }
+  }
+
+  .el-pagination {
+    display: flex;
+    margin: 5px 0;
+    justify-content: flex-start;
+    // background-color: red;
+  }
+}
+
+.el-table__header th {
+  background: #f9f9fa !important;
+}
+
+
+// 优化菜单折叠展开动画（提升动画流畅度）
+.el-menu.el-menu--inline {
+  transition: max-height 0.26s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+// 优化菜单 item hover 动画（提升鼠标跟手感）
+.el-sub-menu__title,
+.el-menu-item {
+  transition: background-color 0s !important;
+}
+
+//设置左侧菜单背景色
+.el-menu-item:hover {
+  background-color: var(--scrm-nav-bgcolor-hover) !important;
+}
+
+.el-sub-menu__title:hover {
+  background-color: var(--scrm-nav-bgcolor-hover) !important;
+}
+
+.el-menu {
+  border: none !important;
+}

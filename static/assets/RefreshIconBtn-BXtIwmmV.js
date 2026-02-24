@@ -1,0 +1,1 @@
+import{Ft as e,I as t,Qt as n,in as r,kt as i,mt as a,wt as o}from"./main-DLAKPujJ.js";var s={__name:`RefreshIconBtn`,props:{data:{type:Function,required:!0,default:()=>{}}},setup(r){let s=e();return(e,c)=>{let l=t;return i(),a(l,o({icon:`RefreshRight`,onClick:r.data},n(s),{circle:``}),null,16,[`onClick`])}}};export{s as t};
