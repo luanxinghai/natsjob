@@ -14,6 +14,7 @@ chmod +x ./natsjob
 
 # 提取版本号并构建镜像
 VERSION=$(extract_version "$(basename ../../libs/natsjob-*-linux-amd64)")
+VERSION=${VERSION#v}
 echo "Building image for version: ${VERSION}"
 docker build --platform linux/amd64 -t "luanxinghai/natsjob:${VERSION}" .
 
@@ -25,5 +26,6 @@ chmod +x ./natsjob
 
 # 提取版本号并构建镜像
 VERSION=$(extract_version "$(basename ../../libs/natsjob-*-linux-arm64)")
+VERSION=${VERSION#v}
 echo "Building image for version: ${VERSION}"
 docker build --platform linux/arm64 -t "luanxinghai/natsjob:${VERSION}-arm" .
