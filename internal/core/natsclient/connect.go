@@ -72,12 +72,13 @@ func Connect(natsClient *enums.NatsClient) {
 }
 
 func ConnectOK(natsClient *enums.NatsClient) {
-	natsClient.Connected.Store(true)
-	natsClient.ConnectOK()
-
 	// 初始化 JetStream 和 KeyValue
 	initJs()
 	initKV()
+
+	//在创建启动处理
+	natsClient.Connected.Store(true)
+	natsClient.ConnectOK()
 }
 
 func Disconnect(natsClient *enums.NatsClient) {
