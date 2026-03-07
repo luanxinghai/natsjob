@@ -3,10 +3,11 @@ package dmgorm2
 import (
 	"database/sql"
 	"database/sql/driver"
-	"dm"
 	"reflect"
 	"strconv"
 	"strings"
+
+	"gitee.com/chunanyong/dm"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/callbacks"

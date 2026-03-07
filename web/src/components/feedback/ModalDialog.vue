@@ -81,11 +81,6 @@ defineExpose({
   grid-template-columns: 1fr 30px 30px;
   justify-content: center;
   align-items: center;
-  /* border-bottom: 1px solid var(--el-border-color); */
-  /* & > div {
-    border: 1px solid red;
-  } */
-
 }
 
 .d-container {
@@ -95,9 +90,6 @@ defineExpose({
   }
 
   &:deep(.el-dialog__body) {
-    /* padding: calc(var(--el-dialog-padding-primary) + 10px)
-      var(--el-dialog-padding-primary); */
-    /* padding: 10px var(--el-dialog-padding-primary); */
     padding: 2px 5px;
     color: var(--el-text-color-regular);
     font-size: var(--el-dialog-content-font-size);
@@ -108,24 +100,13 @@ defineExpose({
 .d-main {
   display: grid;
   grid-template-rows: 1fr auto 40px;
-  // border: 1px solid green;
 
   .d-form {
     margin: 10px 20px;
   }
 
-  &>div {
-    // overflow: auto;
-    /* border: 1px solid green; */
-
-  }
-
   & div:nth-child(1) {
-    // max-height: calc(100vh - 300px);
     overflow: auto;
-    // padding: 10px 5px;
-    // background-color: #f5f5f50c;
-    // background: #eeeeee86;
   }
 }
 </style>

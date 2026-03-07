@@ -39,8 +39,8 @@ NATS 是一款**轻量级、高性能、分布式**的开源消息中间件（MQ
 
 - 官方网站：[NATS 官网](https://nats.io/)
 - GitHub 仓库：
-    - NATS 服务端：[nats-io/nats-server](https://github.com/nats-io/nats-server)
-    - NATS 命令行工具：[nats-io/natscli](https://github.com/nats-io/natscli)
+  - NATS 服务端：[nats-io/nats-server](https://github.com/nats-io/nats-server)
+  - NATS 命令行工具：[nats-io/natscli](https://github.com/nats-io/natscli)
 
 # 安装与启动
 ## 1. 启动 NATS 服务
@@ -210,11 +210,11 @@ natsjob 底层采用 `github.com/robfig/cron/v3` 库实现定时任务调度，*
 测试场景为**1000个定时任务同时启用+结束，并发写库**，数据为多轮测试的平均值，受环境差异影响仅供参考。
 > 注意测试针对并发场景，多少任务数产生这些并发取决于实际场景，可能数万任务才产生这种并发。
 
-| 并发压力场景                          | natsjob 资源占用       | NATS 资源占用          | cron 执行耗时 | 并发限制 | 超时时间 | 数据库回写结果并发限制 |
-|---------------------------------------|------------------------|------------------------|---------------|----------|----------|------------------------|
-| 1000 次/10秒                          | 内存 < 100M、CPU < 50% | 内存 < 300M、CPU < 50% | 1s            | 1        | 10s      | 100                    |
-| 2000 次/10秒                          | 内存 < 200M、CPU < 100%| 内存 < 400M、CPU < 100%| 1s            | 2        | 10s      | 100                    |
-| 10000 次/10秒<br/>（长时间运行服务器资源全打满，数据库CPU较高，访问出现异常） | 内存 < 400M、CPU < 600% | 内存 < 600M、CPU < 200% | 1s            | 10       | 10s      | 100 / 1000（对比测试） |
+| 并发压力场景                          | natsjob 资源占用       | NATS 资源占用          | cron执行时间 | 并发限制 | 超时时间 | 数据库回写结果并发限制 |
+|---------------------------------------|------------------------|------------------------|----------|----------|----------|------------------------|
+| 1000 次/10秒                          | 内存 < 100M、CPU < 50% | 内存 < 300M、CPU < 50% | 1s       | 1        | 10s      | 100                    |
+| 2000 次/10秒                          | 内存 < 200M、CPU < 100%| 内存 < 400M、CPU < 100%| 1s       | 2        | 10s      | 100                    |
+| 10000 次/10秒<br/>（长时间运行服务器资源全打满，数据库CPU较高，访问出现异常） | 内存 < 400M、CPU < 600% | 内存 < 600M、CPU < 200% | 1s       | 10       | 10s      | 100 / 1000（对比测试） |
 
 ## 3. 性能瓶颈分析
 
@@ -247,11 +247,11 @@ natsjob 底层采用 `github.com/robfig/cron/v3` 库实现定时任务调度，*
 
 ```xml
         <!-- Source: https://mvnrepository.com/artifact/io.nats/jnats -->
-        <dependency>
-            <groupId>io.nats</groupId>
-            <artifactId>jnats</artifactId>
-            <version>最新版</version>
-        </dependency>
+<dependency>
+  <groupId>io.nats</groupId>
+  <artifactId>jnats</artifactId>
+  <version>最新版</version>
+</dependency>
 ```
 
 ```java
@@ -289,3 +289,23 @@ natsjob 底层采用 `github.com/robfig/cron/v3` 库实现定时任务调度，*
 
 ## 其他语言
 python go .net node等可用大模型智能体将java示例转换即可（亲测可行）,为大模型点赞,强的一批!!!
+
+
+# 打包部署
+## 前端
+```
+pnpm i
+pnpm build
+```
+打包在dist文件夹内,将静态文件拷贝到后端的static目录中(先清空static目录)
+## 后端
+```
+#linux打包
+./script/build.sh
+#windows打包
+./script/build.bat
+```
+就可以在lib中看到打包好的jar文件
+
+## 制作镜像
+docker目录下有打包sh文件和Dockerfile文件,可以根据需要修改

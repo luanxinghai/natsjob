@@ -6,8 +6,6 @@ import (
 	"fmt"
 	"strings"
 
-	_ "dm" // 引入dm数据库驱动包
-
 	"gorm.io/gorm" // 引入gorm v2包
 	"gorm.io/gorm/callbacks"
 	"gorm.io/gorm/clause"

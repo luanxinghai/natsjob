@@ -31,7 +31,7 @@
             <el-table-column prop="monitorStatus" label="监控状态" min-width="200" show-overflow-tooltip></el-table-column>
             <el-table-column prop="monitorPayload" label="监控随路数据" min-width="200"
                 show-overflow-tooltip></el-table-column>
-            <el-table-column prop="timeSpan" label="耗时(ms)" min-width="100">
+            <el-table-column prop="timeSpan" label="耗时(s)" min-width="100">
                 <template #default="{ row }">
                     {{ $tools.formatMs(row.timeSpan) }}
                 </template>
