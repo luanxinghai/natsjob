@@ -290,22 +290,22 @@ natsjob 底层采用 `github.com/robfig/cron/v3` 库实现定时任务调度，*
 ## 其他语言
 python go .net node等可用大模型智能体将java示例转换即可（亲测可行）,为大模型点赞,强的一批!!!
 
-
 # 打包部署
 ## 前端
 ```
 pnpm i
 pnpm build
 ```
-打包在dist文件夹内,将静态文件拷贝到后端的static目录中(先清空static目录)
+打包在dist文件夹内,将dist中静态文件拷贝到后端的static目录中(先清空static目录)
 ## 后端
 ```
 #linux打包
 ./script/build.sh
+
 #windows打包
 ./script/build.bat
 ```
-就可以在lib中看到打包好的jar文件
+就可以在lib目录中看到打包好的文件
 
 ## 制作镜像
 docker目录下有打包sh文件和Dockerfile文件,可以根据需要修改
