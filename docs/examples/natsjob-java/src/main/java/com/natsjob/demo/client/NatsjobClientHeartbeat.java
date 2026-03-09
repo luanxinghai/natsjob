@@ -1,35 +1,39 @@
 package com.natsjob.demo.client;
 
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
 import com.natsjob.demo.domain.ClientReg;
+import io.nats.client.Connection;
 import io.nats.client.KeyValue;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class NatsjobClientHeartbeat {
-    public static void register(KeyValue keyValue, ClientReg clientReg) {
+    public static void register(Connection natsConnection, ClientReg clientReg) {
         String regKey = NatsjobSubject.getClientHeartbeatKVKey(clientReg.getNamespace(), clientReg.getAppName(), clientReg.getId());
         String regMsg = JSONUtil.toJsonStr(clientReg);
+        final KeyValue[] keyValue = {null};
         Executors.newSingleThreadScheduledExecutor()
                 .scheduleAtFixedRate(() -> {
                     try {
-                        keyValue.put(regKey, regMsg);
-                        System.out.println("put kv client reg:" + regKey + " : " + regMsg);
+                        if (keyValue[0] == null) {
+                            keyValue[0] = natsConnection.keyValue(NatsjobSubject.KV_BUCKET_CLIENT_HEARTBEAT);
+                        }
+                        keyValue[0].put(regKey, regMsg);
+                        if (log.isDebugEnabled()) {
+                            log.debug("put kv client reg:{} : {}", regKey, regMsg);
+                        }
                     } catch (Exception e) {
-                        System.out.println("put kv client reg error:" + e.getMessage());
+                        log.error("put kv client reg error:{}", e.getMessage());
                     }
                 }, 0, 5, TimeUnit.SECONDS)
         ;
-        System.out.println("start client heartbeat");
-    }
-
-
-    public static String getClientId() {
-        return getClientId("0", "");
+        log.info("start client heartbeat");
     }
 
     public static String getClientId(String port) {
@@ -40,15 +44,18 @@ public class NatsjobClientHeartbeat {
         try {
             String hostName = InetAddress.getLocalHost().getHostName();
             String ip = InetAddress.getLocalHost().getHostAddress();
-            String clientId = hostName + "-" + ip + "-" + port;
+            ip = ip.replace(".", "-");
+            String clientId = hostName + "=" + ip + "=" + port;
             if (customId != null && !customId.isEmpty()) {
-                clientId += "-" + customId;
+                clientId += "=" + customId;
             }
-            return clientId.replace(":", "-")
-                    .replace(".", "").toLowerCase();
+            return clientId
+                    .replace(":", "-")
+                    .replace(".", "")
+                    .toLowerCase();
         } catch (UnknownHostException e) {
-            System.out.println("get client id error:" + e.getMessage());
+            log.error("get client id error:{}", e.getMessage());
         }
-        return UUID.randomUUID().toString().toLowerCase();
+        return IdUtil.fastSimpleUUID().toLowerCase();
     }
 }

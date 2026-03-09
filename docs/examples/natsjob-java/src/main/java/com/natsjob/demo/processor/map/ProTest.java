@@ -39,7 +39,7 @@ public class ProTest {
         try (Connection nc = Nats.connect(natsURL)) {
             KeyValue keyValue = nc.keyValue(jobResultKVBucket);
             //注册心跳,没心跳不会下发任务
-            NatsjobClientHeartbeat.register(nc.keyValue(NatsjobSubject.KV_BUCKET_CLIENT_HEARTBEAT), clientReg);
+            NatsjobClientHeartbeat.register(nc, clientReg);
             //前置消费1
             nc.createDispatcher()
                     .subscribe(subjectPre, workQueue, (msg) -> {

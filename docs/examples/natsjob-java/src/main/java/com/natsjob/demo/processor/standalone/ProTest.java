@@ -34,11 +34,11 @@ public class ProTest {
                 .setAppName("biz")
                 .setIp("127.0.0.1")
                 .setComment("demo");
-        
+
         try (Connection nc = Nats.connect(natsURL)) {
             //注册心跳,没心跳不会下发任务
-            NatsjobClientHeartbeat.register(nc.keyValue(NatsjobSubject.KV_BUCKET_CLIENT_HEARTBEAT), clientReg);
-            NatsjobClientHeartbeat.register(nc.keyValue(NatsjobSubject.KV_BUCKET_CLIENT_HEARTBEAT), clientReg2);
+            NatsjobClientHeartbeat.register(nc, clientReg);
+            NatsjobClientHeartbeat.register(nc, clientReg2);
 
             KeyValue keyValue = nc.keyValue(jobResultKVBucket);
             //消费1

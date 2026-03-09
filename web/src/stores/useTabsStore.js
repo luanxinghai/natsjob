@@ -1,4 +1,4 @@
-import { defineStore } from "pinia"
+import {defineStore} from "pinia"
 
 export const useTabsStore = defineStore("useTabsStore", {
   state: () => {
@@ -8,7 +8,6 @@ export const useTabsStore = defineStore("useTabsStore", {
       menuTabs: [
         {
           meta: {
-            ifont: "ri-home-smile-2-line",
             title: "工作台",
             keepAlive: true,
             ifont: "",

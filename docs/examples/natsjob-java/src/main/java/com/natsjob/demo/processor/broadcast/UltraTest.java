@@ -42,8 +42,8 @@ public class UltraTest {
 
             KeyValue keyValue = nc.keyValue(NatsjobSubject.KV_BUCKET_JOB_RESULT);
             //注入心跳
-            NatsjobClientHeartbeat.register(nc.keyValue(NatsjobSubject.KV_BUCKET_CLIENT_HEARTBEAT), clientReg);
-            NatsjobClientHeartbeat.register(nc.keyValue(NatsjobSubject.KV_BUCKET_CLIENT_HEARTBEAT), clientReg2);
+            NatsjobClientHeartbeat.register(nc, clientReg);
+            NatsjobClientHeartbeat.register(nc, clientReg2);
             //消费1
             nc.createDispatcher()
                     .subscribe(subject, (msg) -> {
