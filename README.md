@@ -29,7 +29,35 @@ natsjob 围绕“零侵入、云原生、轻量级、高可用”核心特性构
 - **跨平台部署**：提供 Windows、Linux、macOS 多系统二进制包，以及 AMD/ARM 架构的 Docker 镜像，适配不同部署环境。
 - **可视化管理**：内置 Web 管理界面，支持定时任务的可视化配置：单机、广播、MAP。命名空间互相独立，划分不同场景区域，例如：dev，uat，test等。
 
+#### 架构图
+```mermaid
+flowchart TD
+    %% 定义节点样式
+    classDef cluster fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+    classDef nats fill:#fff3e0,stroke:#e65100,stroke-width:2px;
+    classDef client fill:#f3e5f5,stroke:#4a148c,stroke-width:1px,stroke-dasharray: 5 5;
 
+    %% 节点定义
+    A["NatsJob定时任务集群"]:::cluster
+    B["NATS 集群<br/>(核心消息总线)"]:::nats
+    
+    subgraph Clients [客户端层]
+        direction LR
+        C["服务客户端"]:::client
+        D["组模式客户端"]:::client
+        E["Agent脚本客户端"]:::client
+        F["监控客户端"]:::client
+        G["自定义客户端"]:::client
+    end
+
+    %% 连接关系
+    A -- "连接 (提交任务/状态同步)" --> B   
+    B <-- "连接 (发布/订阅)" --> C
+    B <-- "连接 (队列组订阅)" --> D
+    B <-- "连接 (指令下发/心跳)" --> E
+    B <-- "连接 (指标采集)" --> F
+    B <-- "连接 (自定义)" --> G
+```
 
 ## NATS
 
