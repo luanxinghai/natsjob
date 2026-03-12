@@ -82,3 +82,6 @@ func JobKeyByClientEndSubKey(jobClientEndKey string) string {
 	dp := dotutil.NewDotPath(jobClientEndKey)
 	return dp.Part(7)
 }
+func MonitorSubKey(namespace string, appName string) string {
+	return strutil.JoinByDot(JOB_SUBJ.Monitor, namespace, appName)
+}

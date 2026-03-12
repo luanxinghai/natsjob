@@ -50,6 +50,38 @@ public class NatsjobSubject {
         return String.format("natsjob.job.agent-start.%s.%s.%s", namespace, appName, jobName);
     }
 
+    /**
+     * 监控所有namespace、appName下所有任务
+     */
+    public static String getMonitorSubject(String namespace, String appName) {
+        validateParams(namespace, appName);
+        return String.format("natsjob.job.monitor.%s.%s", namespace, appName);
+    }
+
+    /**
+     * 监控所有namespace下所有
+     */
+    public static String getMonitorSubject(String namespace) {
+        validateParams(namespace, "*");
+        return String.format("natsjob.job.monitor.%s.%s", namespace, "*");
+    }
+
+    /**
+     * 监控所有namespace、appName、jobName
+     */
+    public static String getMonitorSubject() {
+        return String.format("natsjob.job.monitor.%s.%s", "*", "*");
+    }
+
+    private static void validateParams(String namespace, String appName) {
+        if (namespace == null || namespace.isEmpty()) {
+            throw new IllegalArgumentException("namespace must not be null or empty");
+        }
+        if (appName == null || appName.isEmpty()) {
+            throw new IllegalArgumentException("appName must not be null or empty");
+        }
+    }
+
     private static void validateParams(String namespace, String appName, String jobName) {
         if (namespace == null || namespace.isEmpty()) {
             throw new IllegalArgumentException("namespace must not be null or empty");

@@ -22,4 +22,5 @@ type NjAppJob struct {
 	Deleted        int8       `gorm:"default:0;comment:'删除标记';default:0;index:idx_appjob_status_deleted"`
 	CreatedAt      time.Time  `gorm:"precision:6;comment:'创建时间'"`
 	UpdatedAt      time.Time  `gorm:"precision:6;comment:'更新时间'"`
+	//TriggerType    string     `gorm:"size:64;comment:'触发类型,always或空,date,once'" json:"triggerType"`
 }
