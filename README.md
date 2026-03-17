@@ -76,20 +76,20 @@ NATS 是一款**轻量级、高性能、分布式**的开源消息中间件（MQ
 ```bash
 # Windows 环境
 #nats-server.exe -a 0.0.0.0 -p 4222 -m 8222 -js
-nats-server.exe -a 0.0.0.0 -p 4222  -js
+nats-server.exe -a 0.0.0.0 -p 4222  -js -sd ./data
 # Linux/macOS 环境
 #nats-server -a 0.0.0.0 -p 4222 -m 8222 -js
-nats-server -a 0.0.0.0 -p 4222  -js
+nats-server -a 0.0.0.0 -p 4222  -js -sd ./data
 # docker
 #docker run -d --name nats -p 4222:4222 -p 8222:8222 nats:latest -js
-docker run -d --name nats -p 4222:4222  nats:latest -js
+docker run -d -v $(pwd)/data:/data --name nats -p 4222:4222  nats:latest -js -sd /data
 
 # Windows 环境 带账号密码启动
-nats-server.exe -a 0.0.0.0 -p 4222 -js --user natsjob --pass natsjob123
+nats-server.exe -a 0.0.0.0 -p 4222 -js --user natsjob --pass natsjob123 -sd ./data
 # Linux/macOS 环境 带账号密码启动
-nats-server -a 0.0.0.0 -p 4222  -js --user natsjob --pass natsjob123
+nats-server -a 0.0.0.0 -p 4222  -js --user natsjob --pass natsjob123 -sd ./data
 # docker 带账号密码启动
-docker run -d --name nats -p 4222:4222 nats:latest -js --user natsjob --pass natsjob123
+docker run -d -v $(pwd)/data:/data --name nats -p 4222:4222 nats:latest -js --user natsjob --pass natsjob123 -sd ./data
 ```
 
 **参数说明**：
