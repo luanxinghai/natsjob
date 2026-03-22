@@ -15,7 +15,7 @@ github：
 - 服务端：[natsjob](https://github.com/luanxinghai/natsjob)
 - web：[natsjob-web](https://github.com/luanxinghai/natsjob/tree/main/web)
 - 手册: [natsjob-docs](https://github.com/luanxinghai/natsjob/tree/main/docs)
-- skills ：[natsjob-skills](https://github.com/luanxinghai/natsjob/tree/main/skills)
+- skills ：[natsjob-skills](https://github.com/luanxinghai/natsjob/blob/main/docs/skills/SKILL.md)
 
 #### 设计核心理念
 
