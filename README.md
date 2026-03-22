@@ -15,6 +15,7 @@ github：
 - 服务端：[natsjob](https://github.com/luanxinghai/natsjob)
 - web：[natsjob-web](https://github.com/luanxinghai/natsjob/tree/main/web)
 - 手册: [natsjob-docs](https://github.com/luanxinghai/natsjob/tree/main/docs)
+- skills ：[natsjob-skills](https://github.com/luanxinghai/natsjob/tree/main/skills)
 
 #### 设计核心理念
 
@@ -314,6 +315,11 @@ natsjob 底层采用 `github.com/robfig/cron/v3` 库实现定时任务调度，*
         }
     }
 ```
+## skills
+你也可以使用skill生成代码,前面有skills路径文件
+```
+你读取这个skill 给我一个java  单机版 max场景的代码示例
+```
 
 ## 其他语言
 python go .net node等可用大模型智能体将java示例转换即可（亲测可行）,为大模型点赞,强的一批!!!
@@ -336,4 +342,4 @@ pnpm build
 就可以在lib目录中看到打包好的文件
 
 ## 制作镜像
-docker目录下有打包sh文件和Dockerfile文件,可以根据需要修改
+docker目录下有打包sh和Dockerfile文件,可以根据需要修改
