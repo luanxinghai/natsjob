@@ -10,4 +10,6 @@ func watchConnect() {
 
 func watchDisconnect() {
 	logger.Info("nats disconnect")
+	StopWatchRegKV()
+	StopWatchKV()
 }

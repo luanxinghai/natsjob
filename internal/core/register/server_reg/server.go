@@ -161,6 +161,10 @@ func (c *ServerRegManager) ResetMaster() {
 
 func (c *ServerRegManager) SetServerReg(serverReg *ServerReg) {
 	c.serverMap.Set(serverReg.ID, serverReg)
+	logger.Info("serverReg update-map",
+		zap.Int("regCount", c.serverMap.Count()),
+		zap.Any("serverReg", serverReg),
+	)
 }
 
 func (c *ServerRegManager) ResetExpired() {
@@ -171,7 +175,14 @@ func (c *ServerRegManager) ResetExpired() {
 		}
 	})
 
+	if len(appsToCheck) == 0 {
+		logger.Info("serverReg no expired, skip remove", zap.Int("regCount", c.serverMap.Count()))
+		return
+	}
+
 	for id, _ := range appsToCheck {
+		get, _ := c.serverMap.Get(id)
+		logger.Info("serverReg remove expired", zap.String("id", id), zap.Any("serverReg", get))
 		c.serverMap.Remove(id)
 	}
 }

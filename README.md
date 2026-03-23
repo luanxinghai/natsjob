@@ -83,14 +83,20 @@ nats-server.exe -a 0.0.0.0 -p 4222  -js -sd ./data
 nats-server -a 0.0.0.0 -p 4222  -js -sd ./data
 # docker
 #docker run -d --name nats -p 4222:4222 -p 8222:8222 nats:latest -js
-docker run -d -v $(pwd)/data:/data --name nats -p 4222:4222  nats:latest -js -sd /data
+docker run -d \
+-v $(pwd)/data:/data \
+-p 4222:4222 \
+--name nats nats:latest -js -sd /data
 
 # Windows 环境 带账号密码启动
-nats-server.exe -a 0.0.0.0 -p 4222 -js --user natsjob --pass natsjob123 -sd ./data
+nats-server.exe -a 0.0.0.0 -p 4222 -js -sd ./data --user natsjob --pass natsjob123 
 # Linux/macOS 环境 带账号密码启动
-nats-server -a 0.0.0.0 -p 4222  -js --user natsjob --pass natsjob123 -sd ./data
+nats-server -a 0.0.0.0 -p 4222  -js  -sd ./data --user natsjob --pass natsjob123
 # docker 带账号密码启动
-docker run -d -v $(pwd)/data:/data --name nats -p 4222:4222 nats:latest -js --user natsjob --pass natsjob123 -sd ./data
+docker run -d \
+-v $(pwd)/data:/data \
+-p 4222:4222 \
+--name nats nats:latest -js  -sd ./data --user natsjob --pass natsjob123
 ```
 
 **参数说明**：
@@ -289,12 +295,12 @@ natsjob 底层采用 `github.com/robfig/cron/v3` 库实现定时任务调度，*
         String subject = "natsjob-void.job.start.app.biz.owner";
         String workQueue = "worker-queue";
         //设置自动重连,并打印日志信息
-        Options build = new Options.Builder().server(natsURL)
+        Options options = new Options.Builder().server(natsURL)
                 .connectionListener((conn, type) -> {
                     System.out.println("connectionListener:" + type);
                 })
                 .build();
-        try (Connection nc = Nats.connectReconnectOnConnect(build)) {
+        try (Connection nc = Nats.connectReconnectOnConnect(options)) {
             //模拟单机客户端1
             nc.createDispatcher()
                     .subscribe(subject, workQueue, (msg) -> {

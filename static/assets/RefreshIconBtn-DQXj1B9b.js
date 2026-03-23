@@ -1,1 +1,0 @@
-import{Ft as e,P as t,Qt as n,kt as r,mt as i,wt as a}from"./main-D3YUmX_M.js";var o={__name:`RefreshIconBtn`,props:{data:{type:Function,required:!0,default:()=>{}}},setup(o){let s=e();return(e,c)=>{let l=t;return r(),i(l,a({icon:`RefreshRight`,onClick:o.data},n(s),{circle:``}),null,16,[`onClick`])}}};export{o as t};

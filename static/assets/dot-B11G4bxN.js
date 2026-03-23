@@ -1,0 +1,1 @@
+import{b as e,y as t}from"./runtime-core.esm-bundler-BaenS2Zp.js";var n=e({name:`Dot`,props:{animation:{type:Boolean,default:!0},type:{type:String,default:`primary`}},setup(e){return()=>t(`span`,{class:[`gi-dot`,{"gi-dot-processing":e.animation},`gi-dot-${e.type}`]},null)}});export{n as t};

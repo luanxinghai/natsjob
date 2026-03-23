@@ -23,6 +23,7 @@ func StartServerMasterAndHeartbeat() {
 func serverMasterChange(isMaster bool) {
 	logger.Info("server master change", zap.Bool("isMaster", isMaster))
 	isMasterValue.Store(isMaster)
+	WatchRegKV(&natsClient)
 	if isMaster {
 		checkJobUpdate()
 		WatchKV(&natsClient)

@@ -13,14 +13,18 @@ import (
 	"go.uber.org/zap"
 )
 
+// 针对是否master,只有master节点监听kv
 var ctx, cancel = context.WithCancel(context.Background())
+
+// 针对是否注册节点,所有节点都监听注册信息
+var ctxReg, cancelReg = context.WithCancel(context.Background())
+
 var subResultFlow *nats.Subscription
 
 var (
 	watchKvBool              = atomic.Bool{}
 	watchJobResultsKVBool    = atomic.Bool{}
 	watchSubResultFlowKvBool = atomic.Bool{}
-	//watchJobKeysKvBool       = atomic.Bool{}
 )
 
 var (
@@ -30,44 +34,58 @@ var (
 )
 
 func WatchKV(natsClient *enums.NatsClient) {
-	if !watchKvBool.Load() {
+	if IsConnected() == false {
+		logger.Error("watch kv fail, nats not connected")
+		return
+	}
+
+	if watchKvBool.CompareAndSwap(false, true) {
 		ctx, cancel = context.WithCancel(context.Background())
-		watchKvBool.Store(true)
 		watchJobResultsKV(natsClient)
 		watchSubResultFlow(natsClient)
 		//watchJobKeysKV(natsClient)
 		logger.Info("watch job results keys kv")
 	}
 	//容错补偿,获取监听失败的时候重新监听
-	if !watchJobResultsKVBool.Load() {
+	if watchJobResultsKVBool.Load() == false {
 		watchJobResultsKV(natsClient)
 	}
 
-	if !watchSubResultFlowKvBool.Load() {
+	if watchSubResultFlowKvBool.Load() == false {
 		watchSubResultFlow(natsClient)
 	}
 
-	//if !watchJobKeysKvBool.Load() {
-	//	watchJobKeysKV(natsClient)
-	//}
 }
 
 func WatchRegKV(natsClient *enums.NatsClient) {
-	if !watchRegKvBool.Load() {
-		watchRegKvBool.Store(true)
+	if IsConnected() == false {
+		logger.Error("watch reg kv fail, nats not connected")
+		return
+	}
+
+	if watchRegKvBool.CompareAndSwap(false, true) {
+		ctxReg, cancelReg = context.WithCancel(context.Background())
 		watchClientRegKV(natsClient)
 		watchServerRegKV(natsClient)
 		logger.Info("watch reg kv")
 	}
 
-	if !watchClientRegKvBool.Load() {
+	if watchClientRegKvBool.Load() == false {
 		watchClientRegKV(natsClient)
 	}
 
-	if !watchServerRegKvBool.Load() {
+	if watchServerRegKvBool.Load() == false {
 		watchServerRegKV(natsClient)
 	}
 
+}
+func StopWatchRegKV() {
+	if watchRegKvBool.CompareAndSwap(true, false) == false {
+		return
+	}
+	if ctxReg != nil {
+		cancelReg()
+	}
 }
 
 /*
@@ -76,10 +94,10 @@ func WatchRegKV(natsClient *enums.NatsClient) {
 场景: 断开nats; 非master节点
 */
 func StopWatchKV() {
-	if watchKvBool.Load() == false {
+	if watchKvBool.CompareAndSwap(true, false) == false {
 		return
 	}
-	watchKvBool.Store(false)
+
 	if cancel != nil {
 		cancel()
 	}
@@ -107,6 +125,10 @@ func KeyValue(bucket string) (nats.KeyValue, error) {
 }
 
 func watchSubResultFlow(natsClient *enums.NatsClient) {
+	if watchSubResultFlowKvBool.Load() {
+		return
+	}
+
 	js, err := natsClient.Nc.JetStream()
 	if err != nil {
 		logger.Error("get js fail:", zap.Error(err))
@@ -126,7 +148,7 @@ func watchSubResultFlow(natsClient *enums.NatsClient) {
 }
 
 func watchJobResultsKV(natsClient *enums.NatsClient) {
-	if natsClient.WatcherJobResults == nil {
+	if natsClient.WatcherJobResults == nil || watchJobResultsKVBool.Load() {
 		return
 	}
 
@@ -179,7 +201,7 @@ func watchJobResultsKV(natsClient *enums.NatsClient) {
 }
 
 func watchClientRegKV(natsClient *enums.NatsClient) {
-	if natsClient.WatcherClientReg == nil {
+	if natsClient.WatcherClientReg == nil || watchClientRegKvBool.Load() {
 		return
 	}
 	kv, errkv := KeyValue(topic.KV_BUCKET.Heartbeat)
@@ -203,6 +225,16 @@ func watchClientRegKV(natsClient *enums.NatsClient) {
 	go func() {
 		for {
 			select {
+			case <-ctxReg.Done():
+				watchClientRegKvBool.Store(false)
+				if watcher != nil {
+					err := watcher.Stop()
+					if err != nil {
+						logger.Info("watcher clientReg stop fail:", zap.Error(err))
+					}
+				}
+				logger.Info("watcher clientReg stop")
+				return
 			case entry := <-watcher.Updates():
 				if entry == nil {
 					logger.Info("watch clientReg kv initial snapshot loaded, waiting for new changes...")
@@ -216,7 +248,7 @@ func watchClientRegKV(natsClient *enums.NatsClient) {
 	}()
 }
 func watchServerRegKV(natsClient *enums.NatsClient) {
-	if natsClient.WatcherServerReg == nil {
+	if natsClient.WatcherServerReg == nil || watchServerRegKvBool.Load() {
 		return
 	}
 	kv, errkv := KeyValue(topic.KV_BUCKET.Heartbeat)
@@ -237,6 +269,16 @@ func watchServerRegKV(natsClient *enums.NatsClient) {
 	go func() {
 		for {
 			select {
+			case <-ctxReg.Done():
+				watchServerRegKvBool.Store(false)
+				if watcher != nil {
+					err := watcher.Stop()
+					if err != nil {
+						logger.Info("watcher serverReg stop fail:", zap.Error(err))
+					}
+				}
+				logger.Info("watcher serverReg stop")
+				return
 			case entry := <-watcher.Updates():
 				if entry == nil {
 					logger.Info("watch serverReg kv initial snapshot loaded, waiting for new changes...")
@@ -249,56 +291,3 @@ func watchServerRegKV(natsClient *enums.NatsClient) {
 		}
 	}()
 }
-
-//func watchJobKeysKV(natsClient *enums.NatsClient) {
-//	if natsClient.WatcherJobKeys == nil {
-//		return
-//	}
-//
-//	kv, errkv := KeyValue(topic.KV_BUCKET.JobKeys)
-//	if errkv != nil {
-//		logger.Error("start watcher jobKeys fail:", zap.Error(errkv))
-//		return
-//	}
-//	// 只监听最新的变更，忽略历史数据和删除操作
-//	watcher, err := kv.Watch(config.EnvParam.TopicPrefix+".>",
-//		nats.IgnoreDeletes(), // 忽略删除操作
-//		//nats.MetaOnly(),      // 只获取元数据（最高效的方式）
-//	)
-//	if err != nil {
-//		logger.Error("start watcher jobKey fail:", zap.Error(err))
-//		return
-//	}
-//	watchJobKeysKvBool.Store(true)
-//	//监听
-//	go func() {
-//		for {
-//			select {
-//			case <-ctx.Done():
-//				watchJobKeysKvBool.Store(false)
-//				if watcher != nil {
-//					err := watcher.Stop()
-//					if err != nil {
-//						logger.Info("watcher jobKeys stop fail:", zap.Error(err))
-//					}
-//				}
-//				logger.Info("watcher jobKeys stop")
-//				return
-//			case entry := <-watcher.Updates():
-//				if entry == nil {
-//					//fmt.Println("ℹ️  初始快照加载完成，等待新变更...")
-//					logger.Info("watch jobKeys kv initial snapshot loaded, waiting for new changes...")
-//					continue
-//				}
-//				if entry.Operation() == nats.KeyValueDelete {
-//					logger.Info("delete key", zap.String("key", entry.Key()), zap.String("value", string(entry.Value())), zap.Uint64("revision", entry.Revision()))
-//				} else if entry.Operation() == nats.KeyValuePurge {
-//					logger.Info("purge key", zap.String("key", entry.Key()), zap.String("value", string(entry.Value())), zap.Uint64("revision", entry.Revision()))
-//				} else {
-//					natsClient.WatcherJobKeys(entry)
-//				}
-//			}
-//		}
-//	}()
-//
-//}

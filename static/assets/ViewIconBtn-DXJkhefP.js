@@ -1,1 +1,0 @@
-import{kt as e,mt as t}from"./main-D3YUmX_M.js";import{t as n}from"./_plugin-vue_export-helper-DAAOZMkq.js";import{t as r}from"./IconRemixTemp-CX1splKz.js";var i={};function a(n,i){let a=r;return e(),t(a,{name:`ri-connector-line`})}var o=n(i,[[`render`,a]]);export{o as t};
