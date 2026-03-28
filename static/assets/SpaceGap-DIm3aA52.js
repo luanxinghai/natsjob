@@ -1,0 +1,1 @@
+import{R as e,V as t,X as n,h as r,i,v as a}from"./runtime-core.esm-bundler-DUlfXqMs.js";var o={__name:`SpaceGap`,props:{count:{default:2,type:Number},countModifiers:{}},emits:[`update:count`],setup(o){let s=n(o,`count`);return(n,o)=>(e(!0),r(i,null,t(s.value,t=>(e(),r(i,null,[a(` \xA0 `)],64))),256))}};export{o as t};

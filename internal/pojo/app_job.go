@@ -50,6 +50,10 @@ type AppJobUpdateDto struct {
 type AppJobGetDto struct {
 	ID string `json:"id" binding:"required"`
 }
+type AppJobUpdateByIdDto struct {
+	ID string `json:"id" binding:"required"`
+}
+
 type AppJobRemoveDto struct {
 	ID string `json:"id" binding:"required"`
 }

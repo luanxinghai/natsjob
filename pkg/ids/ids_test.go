@@ -5,6 +5,11 @@ import (
 	"testing"
 )
 
+func TestId2(t *testing.T) {
+	fmt.Println(IdAgoHourMin(24) - 2037151810698870784)
+	fmt.Println(Id())
+}
+
 func TestId(t *testing.T) {
 	fmt.Println(Id())
 	//fmt.Println(IdStr())

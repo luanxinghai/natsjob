@@ -7,6 +7,7 @@
                 </el-form-item>
                 <el-form-item label="状态" prop="status">
                     <JobStatus v-model="searchForm.status" />
+
                 </el-form-item>
                 <el-form-item label="分类" prop="category">
                     <JobCategory v-model="searchForm.category" />
@@ -39,7 +40,11 @@
             <el-table-column prop="description" label="说明" min-width="200" show-overflow-tooltip></el-table-column>
             <el-table-column prop="status" label="状态" min-width="120">
                 <template #default="{ row }">
-                    <JobStatusTags v-model="row.status" />
+                    <!-- <JobStatusTags v-model="row.status" /> -->
+                    <el-switch v-model="row.status" inline-prompt
+                        style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949" :active-value="0"
+                        :inactive-value="1" active-text="启用" inactive-text="停用"
+                        @change="handleSwitchStatusChange(row)" />
                 </template>
             </el-table-column>
             <el-table-column prop="cron" label="定时" min-width="160"></el-table-column>
@@ -158,6 +163,16 @@ watch(searchForm, (newVal, oldVal) => {
         searchForm.model = ""
     }
 })
+
+const handleSwitchStatusChange = async (row) => {
+    const urlStatus = row.status == 0 ? "status-enable" : "status-disable"
+    const res = await $post(`natsjob/api/app-job/${urlStatus}`, {
+        id: row.id
+    })
+    res ? $success("操作成功") : $error("操作失败")
+    useTableSearch()
+}
+
 </script>
 
 <style lang="scss" scoped></style>

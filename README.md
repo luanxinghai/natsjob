@@ -7,9 +7,9 @@
 [Release-Url]: https://github.com/luanxinghai/natsjob/releases/latest
 [Release-Image]: https://img.shields.io/github/v/release/luanxinghai/natsjob
 
-# natsjob
+# NatsJob
 
-natsjob 是一款基于 NATS 消息中间件 + Go 语言构建的分布式定时任务框架。框架设计不追求功能上的“大而全”，而是以工程实践场景为核心导向，聚焦“轻量、可控、场景”三大目标，为分布式定时任务提供极简且高效的解决方案。
+NatsJob 是一款基于 NATS 消息中间件 + Go 语言构建的分布式定时任务框架。框架设计不追求功能上的“大而全”，而是以工程实践场景为核心导向，聚焦“轻量、可控、场景”三大目标，为分布式定时任务提供极简且高效的解决方案。
 
 github：
 - 服务端：[natsjob](https://github.com/luanxinghai/natsjob)
@@ -22,11 +22,11 @@ github：
 natsjob 围绕“零侵入、云原生、轻量级、高可用”核心特性构建，并通过标准化通信约定，支持多编程语言、多数据库适配，实现定时任务的灵活交互与管理：
 
 - **零侵入集成**：客户端仅需依赖 NATS 官方 SDK 与 NATS 服务建立通信，即可完成定时任务交互；客户端业务逻辑完全自主掌控，无任何侵入性约束。
-- **云原生适配**：全面兼容云原生生态，NATS 与 natsjob 均支持 Docker 容器化部署、K8s 编排管理，适配云原生环境的弹性伸缩与运维体系。
-- **极致轻量化**：NATS 二进制 + natsjob 二进制总体积100M左右；运行时资源占用低，即使在高频读写场景下，二者总和的内存占用仍可控制在较低水平。
+- **云原生适配**：全面兼容云原生生态，NATS 与 NatsJob 均支持 Docker 容器化部署、K8s 编排管理，适配云原生环境的弹性伸缩与运维体系。
+- **极致轻量化**：NATS 二进制 + NatsJob 二进制总体积100M左右；运行时资源占用低，即使在高频读写场景下，二者总和的内存占用仍可控制在较低水平。
 - **多语言兼容**：依托 NATS 对40+ 种编程语言的全面支持（详见 NATS 官网：<https://nats.io/download/>），natsjob 可无缝对接多语言技术栈的业务系统。
 - **多数据库支持**：默认SQLite，同时兼容 MySQL、PostgreSQL（含人大金仓 PostgreSQL 兼容模式）、达梦等主流数据库，满足不同数据存储场景需求。手动建库natsjob，服务natsjob连接后会自动建表。
-- **高可用保障**：底层基于 NATS 集群模式，natsjob 自身支持主从架构——当 master 节点故障时，集群可30s内自动选举新 master 节点，继续执行任务。
+- **高可用保障**：底层基于 NATS 集群模式，NatsJob 自身支持主从架构——当 master 节点故障时，集群可30s内自动选举新 master 节点，继续执行任务。
 - **跨平台部署**：提供 Windows、Linux、macOS 多系统二进制包，以及 AMD/ARM 架构的 Docker 镜像，适配不同部署环境。
 - **可视化管理**：内置 Web 管理界面，支持定时任务的可视化配置：单机、广播、MAP。命名空间互相独立，划分不同场景区域，例如：dev，uat，test等。
 
@@ -348,4 +348,4 @@ pnpm build
 就可以在lib目录中看到打包好的文件
 
 ## 制作镜像
-docker目录下有打包sh和Dockerfile文件,可以根据需要修改
+docker目录包含打包sh和Dockerfile文件

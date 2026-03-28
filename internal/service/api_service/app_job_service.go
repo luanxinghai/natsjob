@@ -406,3 +406,53 @@ func GetJobCount() int {
 	}
 	return int(count)
 }
+
+func AppJobStatusEnable(c *gin.Context) {
+	updateStatus(c, 0)
+}
+
+func AppJobStatusDisable(c *gin.Context) {
+	updateStatus(c, 1)
+}
+
+func updateStatus(c *gin.Context, status int) {
+	dto := pojo.AppJobUpdateByIdDto{}
+	if err := c.ShouldBindJSON(&dto); err != nil {
+		// 处理验证错误
+		if validationErrors, ok := err.(validator.ValidationErrors); ok {
+			errorMsg := valid.ValidationError(validationErrors, dto)
+			resp.Error(c, errorMsg)
+			return
+		}
+		resp.Error(c, err.Error())
+		return
+	}
+
+	id, err := strutil.ToInt64(dto.ID)
+	if err != nil {
+		resp.Error(c, err.Error())
+		return
+	}
+	q := database.GetQuery()
+	//更新状态
+	rowsAffected, err := q.NjAppJob.WithContext(c).
+		Where(q.NjAppJob.ID.Eq(id)).
+		Where(q.NjAppJob.Deleted.Eq(0)).
+		Update(q.NjAppJob.Status, status)
+	if err != nil {
+		resp.Error(c, err.Error())
+		return
+	}
+	if rowsAffected.RowsAffected == 0 {
+		resp.Error(c, "id not found")
+		return
+	}
+	resp.OK(c, true)
+
+	//添加到定时任务
+	if status == 0 {
+		boot.RunAppJobTaskCreateUpdateById(id)
+	} else {
+		boot.RunAppJobTaskRemoveById(id)
+	}
+}

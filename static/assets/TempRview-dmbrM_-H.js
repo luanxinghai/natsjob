@@ -1,0 +1,1 @@
+import{R as e,h as t}from"./runtime-core.esm-bundler-DUlfXqMs.js";import{t as n}from"./_plugin-vue_export-helper-DAAOZMkq.js";var r={},i={class:`content`};function a(n,r){return e(),t(`div`,i)}var o=n(r,[[`render`,a],[`__scopeId`,`data-v-e108e62d`]]);export{o as default};

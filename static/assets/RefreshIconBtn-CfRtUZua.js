@@ -1,1 +1,0 @@
-import{O as e}from"./es-45YIIqOE.js";import{O as t,R as n,Y as r,bt as i,p as a}from"./runtime-core.esm-bundler-BaenS2Zp.js";var o={__name:`RefreshIconBtn`,props:{data:{type:Function,required:!0,default:()=>{}}},setup(o){let s=r();return(r,c)=>{let l=e;return n(),a(l,t({icon:`RefreshRight`,onClick:o.data},i(s),{circle:``}),null,16,[`onClick`])}}};export{o as t};
