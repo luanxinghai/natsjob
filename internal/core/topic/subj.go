@@ -8,27 +8,33 @@ import (
 )
 
 type SubjStruct struct {
-	VoidStart     string
-	VoidPreStart  string
-	PreStart      string
-	Start         string
-	ClientStart   string
-	GroupStart    string
-	AgentStart    string
-	SubResultFlow string
-	Monitor       string
+	VoidStart       string
+	VoidPreStart    string
+	VoidClientStart string
+	VoidGroupStart  string
+	VoidAgentStart  string
+	PreStart        string
+	Start           string
+	ClientStart     string
+	GroupStart      string
+	AgentStart      string
+	SubResultFlow   string
+	Monitor         string
 }
 
 var JOB_SUBJ = SubjStruct{
-	VoidStart:     "natsjob-void.job.start",
-	VoidPreStart:  "natsjob-void.job.pre-start",
-	PreStart:      "natsjob.job.pre-start",
-	Start:         "natsjob.job.start",
-	ClientStart:   "natsjob.job.client-start",
-	GroupStart:    "natsjob.job.group-start",
-	AgentStart:    "natsjob.job.agent-start",
-	SubResultFlow: "natsjob.job.sub-result-flow",
-	Monitor:       "natsjob.job.monitor",
+	VoidStart:       "natsjob-void.job.start",
+	VoidPreStart:    "natsjob-void.job.pre-start",
+	VoidClientStart: "natsjob-void.job.client-start",
+	VoidGroupStart:  "natsjob-void.job.group-start",
+	VoidAgentStart:  "natsjob-void.job.agent-start",
+	PreStart:        "natsjob.job.pre-start",
+	Start:           "natsjob.job.start",
+	ClientStart:     "natsjob.job.client-start",
+	GroupStart:      "natsjob.job.group-start",
+	AgentStart:      "natsjob.job.agent-start",
+	SubResultFlow:   "natsjob.job.sub-result-flow",
+	Monitor:         "natsjob.job.monitor",
 }
 
 func JobVoidStartSubj(task *enums.JobCron) string {
@@ -40,16 +46,28 @@ func JobVoidPreStartSubj(task *enums.JobCron) string {
 }
 
 func JobPreStartSubj(task *enums.JobCron) string {
+	if task.SubjectModel == "memory" {
+		return strutil.JoinByDot(JOB_SUBJ.VoidPreStart, task.Namespace, task.AppName, task.JobName)
+	}
 	return strutil.JoinByDot(JOB_SUBJ.PreStart, task.Namespace, task.AppName, task.JobName)
 }
 func JobStartSubj(task *enums.JobCron) string {
+	if task.SubjectModel == "memory" {
+		return strutil.JoinByDot(JOB_SUBJ.VoidStart, task.Namespace, task.AppName, task.JobName)
+	}
 	return strutil.JoinByDot(JOB_SUBJ.Start, task.Namespace, task.AppName, task.JobName)
 }
 func JobClientStartSubj(task *enums.JobCron, clientId string) string {
+	if task.SubjectModel == "memory" {
+		return strutil.JoinByDot(JOB_SUBJ.VoidStart, task.Namespace, task.AppName, task.JobName, clientId)
+	}
 	return strutil.JoinByDot(JOB_SUBJ.ClientStart, task.Namespace, task.AppName, task.JobName, clientId)
 }
 
 func JobGroupStartSubj(task *enums.JobCron) string {
+	if task.SubjectModel == "memory" {
+		return strutil.JoinByDot(JOB_SUBJ.VoidGroupStart, task.Namespace, task.AppName, task.JobName)
+	}
 	return strutil.JoinByDot(JOB_SUBJ.GroupStart, task.Namespace, task.AppName, task.JobName)
 }
 

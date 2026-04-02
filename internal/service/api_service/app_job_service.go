@@ -138,6 +138,7 @@ func AppJobCreate(c *gin.Context) {
 		Cron:           dto.Cron,
 		Category:       dto.Category,
 		Model:          dto.Model,
+		SubjectModel:   dto.SubjectModel,
 		Status:         dto.Status,
 		Condition:      dto.Condition,
 		MaxWorkers:     dto.MaxWorkers,
@@ -216,6 +217,7 @@ func AppJobUpdate(c *gin.Context) {
 		Cron:           dto.Cron,
 		Category:       dto.Category,
 		Model:          dto.Model,
+		SubjectModel:   dto.SubjectModel,
 		Status:         dto.Status,
 		Condition:      dto.Condition,
 		MaxWorkers:     dto.MaxWorkers,
@@ -233,6 +235,7 @@ func AppJobUpdate(c *gin.Context) {
 	updateFields = append(updateFields, q.NjAppJob.Args)
 	updateFields = append(updateFields, q.NjAppJob.Category)
 	updateFields = append(updateFields, q.NjAppJob.Model)
+	updateFields = append(updateFields, q.NjAppJob.SubjectModel)
 	updateFields = append(updateFields, q.NjAppJob.Status)
 	updateFields = append(updateFields, q.NjAppJob.Condition)
 	updateFields = append(updateFields, q.NjAppJob.MaxWorkers)
@@ -372,11 +375,12 @@ func AppRemoveByNamespaceId(nsId int64) {
 }
 
 func getVo(v *model.NjAppJob) *pojo.AppJobVo {
-	return &pojo.AppJobVo{
+	vo := &pojo.AppJobVo{
 		ID:             strutil.ToStr(v.ID),
 		Name:           v.Name,
 		Description:    v.Description,
 		Model:          v.Model,
+		SubjectModel:   v.SubjectModel,
 		Category:       v.Category,
 		Args:           v.Args,
 		MaxWorkers:     v.MaxWorkers,
@@ -392,6 +396,12 @@ func getVo(v *model.NjAppJob) *pojo.AppJobVo {
 		CreatedAt:      datetime.DateTime(v.CreatedAt),
 		UpdatedAt:      datetime.DateTime(v.UpdatedAt),
 	}
+
+	if vo.SubjectModel == "" {
+		vo.SubjectModel = "jetStream"
+	}
+
+	return vo
 }
 
 func GetJobCount() int {

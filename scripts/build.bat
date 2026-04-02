@@ -6,7 +6,7 @@ if not exist "%libs_path%" mkdir "%libs_path%"
 del /q "%libs_path%\natsjob*" 2>nul
 
 REM Build version number
-set version_main=v1.0
+set version_main=v2.0
 
 REM Get current date (YYYYMMDD)
 for /f "tokens=2 delims==" %%a in ('wmic os get localdatetime /value') do set datetime=%%a

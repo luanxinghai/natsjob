@@ -328,7 +328,7 @@ natsjob 底层采用 `github.com/robfig/cron/v3` 库实现定时任务调度，*
 ```
 
 ## 其他语言
-python go .net node等可用大模型智能体将java示例转换即可（亲测可行）,为大模型点赞,强的一批!!!
+python go .net node等可用大模型智能体将java示例转换即可,all in ai!
 
 # 打包部署
 ## 前端

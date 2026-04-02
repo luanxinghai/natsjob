@@ -26,7 +26,15 @@
         <template #column>
             <el-table-column type="index" width="50"></el-table-column>
             <el-table-column prop="id" label="编号" min-width="180"></el-table-column>
-            <el-table-column prop="status" label="状态" min-width="200" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="status" label="状态" min-width="200" show-overflow-tooltip>
+                <template #default="{ row }">
+                    <el-text v-if="row.status == 'success'" type="success">{{ row.status }}</el-text>
+                    <el-text v-else-if="row.status == 'fail'" type="danger">{{ row.status }}</el-text>
+                    <el-text v-else-if="row.status == 'expired'" type="warning">{{ row.status }}</el-text>
+                    <span v-else>{{ row.status }}</span>
+                </template>
+            </el-table-column>
+
             <el-table-column prop="reason" label="原因" min-width="200" show-overflow-tooltip></el-table-column>
             <el-table-column prop="monitorStatus" label="监控状态" min-width="200" show-overflow-tooltip></el-table-column>
             <el-table-column prop="monitorPayload" label="监控随路数据" min-width="200"

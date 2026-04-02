@@ -133,7 +133,8 @@ func (c *CronManager) UpdateJobByCron(task *enums.JobCron) bool {
 		jobCron.JobModel == task.JobModel &&
 		jobCron.AppName == task.AppName &&
 		jobCron.JobName == task.JobName &&
-		jobCron.Condition == task.Condition {
+		jobCron.Condition == task.Condition &&
+		jobCron.SubjectModel == task.SubjectModel {
 		return true
 	}
 
@@ -147,6 +148,7 @@ func (c *CronManager) UpdateJobByCron(task *enums.JobCron) bool {
 		jobCron.AppName = task.AppName
 		jobCron.JobName = task.JobName
 		jobCron.Condition = task.Condition
+		jobCron.SubjectModel = task.SubjectModel
 		return true
 	}
 

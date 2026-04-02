@@ -95,12 +95,9 @@ const jobTab = (row) => {
         params: {
             cmd: "detail",
             namespaceId: nsId.value,
-            appId: row.id
+            appId: row.id,
+            jobName: row.name
         },
-        // query: {
-        //     cmd: "list",
-        //     id: row.id,
-        // },
         meta: {
             title: "任务列表",
         },

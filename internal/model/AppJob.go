@@ -8,6 +8,7 @@ type NjAppJob struct {
 	Cron           string     `gorm:"size:64;not null;comment:'cron表达式'"`
 	Category       string     `gorm:"size:64;not null;comment:'策略'"`
 	Model          string     `gorm:"size:64;not null;comment:'模式'"`
+	SubjectModel   string     `gorm:"size:64;comment:'memory,jetStream'"`
 	Status         int8       `gorm:"comment:'状态;0-启用,1-停用';default:0;index:idx_appjob_status_deleted" json:"status"`
 	Condition      string     `gorm:"size:64;comment:'条件'" json:"condition"`
 	MaxWorkers     int32      `gorm:"default:1;comment:'最大工作节点数'" json:"maxWorkers"`

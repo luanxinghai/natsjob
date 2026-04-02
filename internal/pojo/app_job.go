@@ -20,6 +20,7 @@ type AppJobDto struct {
 	Cron           string `json:"cron" binding:"required"`
 	Category       string `json:"category" binding:"required"`
 	Model          string `json:"model" binding:"required"`
+	SubjectModel   string `json:"subjectModel"`
 	Status         int8   `json:"status" binding:"min=0,max=1"`
 	Condition      string `json:"condition"`
 	MaxWorkers     int32  `json:"maxWorkers"`
@@ -38,6 +39,7 @@ type AppJobUpdateDto struct {
 	Cron           string `json:"cron" binding:"required"`
 	Category       string `json:"category" binding:"required"`
 	Model          string `json:"model" binding:"required"`
+	SubjectModel   string `json:"subjectModel"`
 	Status         int8   `json:"status" binding:"min=0,max=1"`
 	Condition      string `json:"condition"`
 	MaxWorkers     int32  `json:"maxWorkers"`
@@ -64,6 +66,7 @@ type AppJobVo struct {
 	Cron           string `json:"cron"`
 	Category       string `json:"category"`
 	Model          string `json:"model"`
+	SubjectModel   string `json:"subjectModel"`
 	Status         int8   `json:"status"`
 	Condition      string `json:"condition"`
 	MaxWorkers     int32  `json:"maxWorkers"`

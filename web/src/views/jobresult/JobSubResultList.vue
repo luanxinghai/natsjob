@@ -12,8 +12,15 @@
                             show-overflow-tooltip></el-table-column>
                         <el-table-column prop="sceneName" label="场景名称" min-width="160"
                             show-overflow-tooltip></el-table-column>
-                        <el-table-column prop="status" label="状态" min-width="200"
-                            show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="status" label="状态" min-width="200" show-overflow-tooltip>
+                            <template #default="{ row }">
+                                <el-text v-if="row.status == 'success'" type="success">{{ row.status }}</el-text>
+                                <el-text v-else-if="row.status == 'fail'" type="danger">{{ row.status }}</el-text>
+                                <el-text v-else-if="row.status == 'expired'" type="warning">{{ row.status }}</el-text>
+                                <span v-else>{{ row.status }}</span>
+                            </template>
+                        </el-table-column>
+
                         <el-table-column prop="reason" label="原因" min-width="200"
                             show-overflow-tooltip></el-table-column>
                         <el-table-column prop="monitorStatus" label="监控状态" min-width="200"

@@ -32,10 +32,10 @@ export const jobCategoryOptions = [
   // },
 ]
 export const jobModelOptions = [
-  {
-    value: "lite",
-    label: "炼气-lite",
-  },
+  // {
+  //   value: "lite",
+  //   label: "炼气-lite",
+  // },
   {
     value: "plus",
     label: "筑基-plus",
@@ -71,4 +71,16 @@ export const jobConditionOptions = [
     value: "clientMaxWeight",
     label: "最大权重",
   },
+]
+
+
+export const subjectModelOptions = [
+  {
+    value: "jetStream",
+    label: "jetStream",
+  },
+  {
+    value: "memory",
+    label: "内存",
+  }
 ]

@@ -6,7 +6,7 @@ mkdir -p $libs_path
 rm -rf ./$libs_path/natsjob*
 
 #合成版本号
-version_main="v1.0"
+version_main="v2.0"
 version_build_date=$(date +%Y%m%d)
 version="${version_main}.${version_build_date}"
 

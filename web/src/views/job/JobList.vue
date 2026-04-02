@@ -58,6 +58,8 @@
                     <JobModelLabel v-model="row.model" />
                 </template>
             </el-table-column>
+            <el-table-column prop="subjectModel" label="主题模式" min-width="140">
+            </el-table-column>
             <el-table-column prop="maxWorkers" label="最大并发" min-width="120"></el-table-column>
             <el-table-column prop="timeoutSeconds" label="超时时间(秒)" min-width="120"></el-table-column>
             <el-table-column prop="condition" label="条件" min-width="140">
@@ -133,11 +135,12 @@ const createData = () => {
     editRef.value.createData({
         namespaceId: route.params.namespaceId,
         appId: route.params.appId,
+        jobName: route.params.jobName,
     });
 };
 
 const editData = (row) => {
-    editRef.value.editData(row);
+    editRef.value.editData(row, route.params.jobName);
 };
 const router = useRouter();
 const jobResultTab = (row) => {

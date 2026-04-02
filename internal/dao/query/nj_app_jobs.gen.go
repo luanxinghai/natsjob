@@ -32,6 +32,7 @@ func newNjAppJob(db *gorm.DB, opts ...gen.DOOption) njAppJob {
 	_njAppJob.Cron = field.NewString(tableName, "cron")
 	_njAppJob.Category = field.NewString(tableName, "category")
 	_njAppJob.Model = field.NewString(tableName, "model")
+	_njAppJob.SubjectModel = field.NewString(tableName, "subject_model")
 	_njAppJob.Status = field.NewInt8(tableName, "status")
 	_njAppJob.Condition = field.NewString(tableName, "condition")
 	_njAppJob.MaxWorkers = field.NewInt32(tableName, "max_workers")
@@ -61,6 +62,7 @@ type njAppJob struct {
 	Cron           field.String // 'cron表达式'
 	Category       field.String // '策略'
 	Model          field.String // '模式'
+	SubjectModel   field.String // 'memory,jetStream'
 	Status         field.Int8   // '状态
 	Condition      field.String // '条件'
 	MaxWorkers     field.Int32  // '最大工作节点数'
@@ -96,6 +98,7 @@ func (n *njAppJob) updateTableName(table string) *njAppJob {
 	n.Cron = field.NewString(table, "cron")
 	n.Category = field.NewString(table, "category")
 	n.Model = field.NewString(table, "model")
+	n.SubjectModel = field.NewString(table, "subject_model")
 	n.Status = field.NewInt8(table, "status")
 	n.Condition = field.NewString(table, "condition")
 	n.MaxWorkers = field.NewInt32(table, "max_workers")
@@ -134,12 +137,13 @@ func (n *njAppJob) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (n *njAppJob) fillFieldMap() {
-	n.fieldMap = make(map[string]field.Expr, 19)
+	n.fieldMap = make(map[string]field.Expr, 20)
 	n.fieldMap["id"] = n.ID
 	n.fieldMap["name"] = n.Name
 	n.fieldMap["cron"] = n.Cron
 	n.fieldMap["category"] = n.Category
 	n.fieldMap["model"] = n.Model
+	n.fieldMap["subject_model"] = n.SubjectModel
 	n.fieldMap["status"] = n.Status
 	n.fieldMap["condition"] = n.Condition
 	n.fieldMap["max_workers"] = n.MaxWorkers

@@ -19,6 +19,7 @@ type JobCron struct {
 	JobName         string                       `json:"jobName"`
 	JobCategory     string                       `json:"jobCategory"`
 	JobModel        string                       `json:"jobModel"`
+	SubjectModel    string                       `json:"subjectModel"`
 	Condition       string                       `json:"condition"`
 	Cron            string                       `json:"cron"`
 	MaxWorkers      int                          `json:"maxWorkers"`     // 最大并发数

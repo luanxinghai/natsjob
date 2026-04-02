@@ -1,10 +1,20 @@
 <template>
-    <el-dialog v-model="dialogFormVisible" title="数据编辑" width="40%" draggable destroy-on-close center>
-        <el-form :model="form" :rules="rules" ref="formRef" label-width="100px">
+    <el-dialog v-model="dialogFormVisible" title="数据编辑" width="50%" draggable destroy-on-close center>
+        <el-form :model="form" :rules="rules" ref="formRef" label-width="120px">
             <el-form-item label="编号" prop="id">
                 {{ form.id }}
             </el-form-item>
+            <el-form-item label="订阅主题">
+                <el-text type="success" size="large"> {{ subjectValue }}</el-text>
+            </el-form-item>
             <GridRow>
+                <el-form-item label="状态" prop="status">
+                    <JobStatus v-model="form.status" />
+                </el-form-item>
+                <el-form-item label="主题模式" prop="status">
+                    <SubjectModel v-model="form.subjectModel" />
+                </el-form-item>
+
                 <el-form-item label="分类" prop="category">
                     <JobCategory v-model="form.category" />
                 </el-form-item>
@@ -18,9 +28,7 @@
             <el-form-item label="说明" prop="description">
                 <el-input v-model.trim="form.description" autocomplete="off" maxlength="64" show-word-limit />
             </el-form-item>
-            <el-form-item label="状态" prop="status">
-                <JobStatus v-model="form.status" />
-            </el-form-item>
+
             <GridRow>
                 <el-form-item label="定时" prop="cron">
                     <el-input v-model.trim="form.cron" autocomplete="off" maxlength="64" />
@@ -60,11 +68,13 @@
 </template>
 
 <script setup name="AppEdit">
-import JobCondition from '../compontent/JobCondition.vue';
-
+import { nsId, nsName } from "@/hooks/namespace"
+import { isNullOrEmpty } from "@/utils/tools"
+const subjectValue = ref("")
 const dialogFormVisible = ref(false);
 const emits = defineEmits(["load"]);
 const editModel = ref(false)
+let jobName = ""
 const success = () => {
     dialogFormVisible.value = false;
     emits("load");
@@ -88,6 +98,7 @@ const {
             appId: null,
             category: "",
             model: "",
+            subjectModel: "jetStream",
             status: 0,
             cron: "@every 10s",
             maxWorkers: 1,
@@ -110,11 +121,14 @@ const createData = (data = {}) => {
     useFormById()
     form.namespaceId = data.namespaceId
     form.appId = data.appId
+    jobName = data.jobName
+
     dialogFormVisible.value = true;
 };
 
-const editData = async (row) => {
+const editData = async (row, jobNameParam) => {
     editModel.value = true
+    jobName = jobNameParam
     useFormById(row.id);
     dialogFormVisible.value = true;
 };
@@ -140,22 +154,28 @@ defineExpose({
 });
 
 watch(form, (newVal, oldVal) => {
-    if (form.category == "map" && form.model == "ultra") {
-        form.model = ""
-    }
-
     if (form.category == "standalone" && form.model == "ultra") {
     } else {
         form.condition = ""
     }
+
+    if (form.subjectModel == "jetStream" && !isNullOrEmpty(form.category) && !isNullOrEmpty(form.model) && !isNullOrEmpty(form.name)) {
+        if (form.model == "ultra") {
+            subjectValue.value = `natsjob.job.client-start.${nsName.value}.${jobName}.${form.name}.客户端注册ID`
+        } else {
+            subjectValue.value = `natsjob.job.start.${nsName.value}.${jobName}.${form.name}`
+        }
+    } else if (form.subjectModel == "memory" && !isNullOrEmpty(form.category) && !isNullOrEmpty(form.model) && !isNullOrEmpty(form.name)) {
+        if (form.model == "ultra") {
+            subjectValue.value = `natsjob-void.job.client-start.${nsName.value}.${jobName}.${form.name}.客户端注册ID`
+        } else {
+            subjectValue.value = `natsjob-void.job.start.${nsName.value}.${jobName}.${form.name}`
+        }
+    } else {
+        subjectValue.value = ""
+    }
 })
+
 </script>
 
-<style lang="scss" scoped>
-.content {
-    padding: 10px;
-    max-height: 60vh;
-    overflow: auto;
-    background-color: #fff;
-}
-</style>
+<style lang="scss" scoped></style>
