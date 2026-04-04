@@ -154,6 +154,10 @@ defineExpose({
 });
 
 watch(form, (newVal, oldVal) => {
+    if (form.category == "map" && form.model == "ultra") {
+        form.model = ""
+    }
+
     if (form.category == "standalone" && form.model == "ultra") {
     } else {
         form.condition = ""

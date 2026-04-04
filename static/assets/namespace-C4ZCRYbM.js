@@ -1,1 +1,0 @@
-import{ft as e}from"./runtime-core.esm-bundler-DUlfXqMs.js";var t=e(`1`),n=e(`app`),r=e(``);export{n,r,t};
