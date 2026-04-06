@@ -1,43 +1,63 @@
 <template>
     <ModalDialog title="子任务数据详情" v-model="dialogFormVisible" width="80%" destroy-on-close draggable center>
         <template #content>
-            <div class="content">
-                <TableView :data="table.data" :page="page" :search="useTableSearch">
-                    <template #column>
-                        <el-table-column type="index" width="50"></el-table-column>
-                        <el-table-column prop="id" label="编号" min-width="180"></el-table-column>
-                        <el-table-column prop="clientId" label="客户端ID" min-width="160"
-                            show-overflow-tooltip></el-table-column>
-                        <el-table-column prop="sceneId" label="场景ID" min-width="160"
-                            show-overflow-tooltip></el-table-column>
-                        <el-table-column prop="sceneName" label="场景名称" min-width="160"
-                            show-overflow-tooltip></el-table-column>
-                        <el-table-column prop="status" label="状态" min-width="200" show-overflow-tooltip>
-                            <template #default="{ row }">
-                                <el-text v-if="row.status == 'success'" type="success">{{ row.status }}</el-text>
-                                <el-text v-else-if="row.status == 'fail'" type="danger">{{ row.status }}</el-text>
-                                <el-text v-else-if="row.status == 'expired'" type="warning">{{ row.status }}</el-text>
-                                <span v-else>{{ row.status }}</span>
+            <div class="container">
+                <div class="card-list-container">
+                    <div v-if="table.data.length === 0" class="empty-tip">
+                        <el-empty description="暂无数据" />
+                    </div>
+                    <template v-else>
+                        <n-card v-for="(row, index) in table.data" :key="row.id" class="result-card" embedded>
+                            <template #header>
+                                <div class="card-header">
+                                    <span class="card-index">#{{ (page.current - 1) * page.size + index + 1 }}</span>
+                                    <span class="card-id">编号:{{ row.id }}</span>
+                                    <el-divider direction="vertical" />
+                                    <span>
+                                        状态:
+                                        <el-text v-if="row.status == 'success'" type="success">success</el-text>
+                                        <el-text v-else-if="row.status == 'fail'" type="danger">fail</el-text>
+                                        <el-text v-else-if="row.status == 'expired'" type="warning">expired</el-text>
+                                        <el-text v-else type="primary">{{ row.status }}</el-text>
+                                    </span>
+                                    <el-divider direction="vertical" />
+                                    <span> 原因: <el-text type="primary">{{ row.reason || '-' }}</el-text></span>
+                                </div>
                             </template>
-                        </el-table-column>
-
-                        <el-table-column prop="reason" label="原因" min-width="200"
-                            show-overflow-tooltip></el-table-column>
-                        <el-table-column prop="monitorStatus" label="监控状态" min-width="200"
-                            show-overflow-tooltip></el-table-column>
-                        <el-table-column prop="monitorPayload" label="监控随路数据" min-width="200"
-                            show-overflow-tooltip></el-table-column>
-                        <el-table-column prop="timeSpan" label="耗时(s)" min-width="100">
-                            <template #default="{ row }">
-                                {{ $tools.formatMs(row.timeSpan) }}
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="startAt" label="开始时间" min-width="180"></el-table-column>
-                        <el-table-column prop="endAt" label="结束时间" min-width="180"></el-table-column>
-                        <el-table-column prop="createdAt" label="创建日期" min-width="180"></el-table-column>
-                        <el-table-column prop="updatedAt" label="更新日期" min-width="180"></el-table-column>
+                            <el-descriptions :column="2" border>
+                                <el-descriptions-item label="场景ID/名称">
+                                    <el-text type="primary">{{ row.sceneId || '-' }}</el-text>
+                                    <el-divider direction="vertical" />
+                                    {{ row.sceneName || '-' }}
+                                </el-descriptions-item>
+                                <el-descriptions-item label="客户端ID">
+                                    {{ row.clientId }}
+                                </el-descriptions-item>
+                                <el-descriptions-item label="监控状态">
+                                    {{ row.monitorStatus || '-' }}
+                                </el-descriptions-item>
+                                <el-descriptions-item label="监控随路数据" :span="3">
+                                    <el-text type="info">{{ row.monitorPayload || '-' }}</el-text>
+                                </el-descriptions-item>
+                                <el-descriptions-item label="开始/结束时间">
+                                    {{ row.startAt }} ~ {{ row.endAt }}
+                                </el-descriptions-item>
+                                <el-descriptions-item label="耗时">
+                                    {{ $tools.formatMs(row.timeSpan) }}
+                                </el-descriptions-item>
+                                <el-descriptions-item label="创建日期">
+                                    {{ row.createdAt }}
+                                </el-descriptions-item>
+                                <el-descriptions-item label="更新日期" :span="2">
+                                    {{ row.updatedAt }}
+                                </el-descriptions-item>
+                            </el-descriptions>
+                        </n-card>
                     </template>
-                </TableView>
+                </div>
+                <div class="center pagination-wrapper">
+                    <PageView :page="page" :getData="useTableSearch" />
+                </div>
             </div>
         </template>
     </ModalDialog>
@@ -75,14 +95,68 @@ const subList = (taskId) => {
     dialogFormVisible.value = true
 }
 
+const handleSizeChange = () => {
+    page.current = 1
+    useTableSearch()
+}
+
 defineExpose({
     subList
 });
 </script>
 
 <style lang="scss" scoped>
-.content {
-    height: 60vh;
-    background-color: #fff;
+.container {
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 40px;
+}
+
+.card-list-container {
+    // max-height: 70vh;
+    height: 100%;
+    overflow-y: auto;
+    padding: 10px;
+    border-bottom: 1px solid var(--scrm-bg-color);
+
+    .empty-tip {
+        padding: 40px 0;
+        text-align: center;
+    }
+
+    .result-card {
+        margin-bottom: 12px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        :deep(.n-card-header) {
+            padding-bottom: 8px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            .card-index {
+                font-weight: 600;
+                color: var(--n-text-color-3);
+                font-size: 14px;
+            }
+
+            .card-id {
+                font-weight: 500;
+                color: var(--n-text-color);
+                font-size: 14px;
+                word-break: break-all;
+            }
+        }
+    }
+
+    .pagination-wrapper {
+        padding: 16px 0;
+    }
 }
 </style>

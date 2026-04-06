@@ -73,14 +73,13 @@ export const jobConditionOptions = [
   },
 ]
 
-
 export const subjectModelOptions = [
   {
-    value: "jetStream",
-    label: "jetStream",
+    value: "JetStream",
+    label: "JetStream",
   },
   {
     value: "memory",
     label: "内存",
-  }
+  },
 ]

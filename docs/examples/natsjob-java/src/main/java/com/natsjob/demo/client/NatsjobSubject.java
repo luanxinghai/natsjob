@@ -35,6 +35,12 @@ public class NatsjobSubject {
         return String.format("natsjob.job.pre-start.%s.%s.%s", namespace, appName, jobName);
     }
 
+    public static String getVoidClientStartSubject(String namespace, String appName, String jobName, String clientId) {
+        validateParamsByClient(namespace, appName, jobName, clientId);
+        return String.format("natsjob-void.job.client-start.%s.%s.%s.%s", namespace, appName, jobName, clientId);
+    }
+
+
     public static String getClientStartSubject(String namespace, String appName, String jobName, String clientId) {
         validateParamsByClient(namespace, appName, jobName, clientId);
         return String.format("natsjob.job.client-start.%s.%s.%s.%s", namespace, appName, jobName, clientId);
