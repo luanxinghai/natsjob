@@ -30,8 +30,8 @@ public class MaxTest {
                         JobMessage jobMessage = JSONUtil.toBean(data, JobMessage.class);
 
                         //自定义场景
-                        sendFlowMessage(nc, jobMessage, "client-A", "scene-1", "场景1", "process1", "进入金丹境");
-                        sendFlowMessage(nc, jobMessage, "client-B", "scene-2", "场景2", "process2", "进入元婴境");
+                        sendFlowMessage(nc, jobMessage, "client-A", "scene-1", "场景1", "process1", "进入基础境");
+                        sendFlowMessage(nc, jobMessage, "client-B", "scene-2", "场景2", "process2", "进入专业境");
                         sendFlowMessage(nc, jobMessage, "client-C", "scene-3", "场景3", "process3", "化神嘻嘻了");
 
                         //结束任务

@@ -60,8 +60,8 @@
                                 机器CPU/内存使用率
                             </div>
                         </template>
-                        {{ item.machineCpuUsage }}<el-divider direction="vertical" />
-                        {{ item.machineMemoryUsage }}
+                        {{ item.machineCpuUsage || "-" }}<el-divider direction="vertical" />
+                        {{ item.machineMemoryUsage || "-" }}
                     </el-descriptions-item>
                     <el-descriptions-item>
                         <template #label>
@@ -69,8 +69,8 @@
                                 客户端cpu使用率/内存占用
                             </div>
                         </template>
-                        {{ item.processCpuUsage }}<el-divider direction="vertical" />
-                        {{ item.processMemoryRss }}
+                        {{ item.processCpuUsage || "-" }}<el-divider direction="vertical" />
+                        {{ item.processMemoryRss || "-" }}
                     </el-descriptions-item>
                 </el-descriptions>
             </n-card>

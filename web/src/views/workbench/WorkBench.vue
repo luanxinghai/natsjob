@@ -5,7 +5,7 @@
       <CacheStat />
     </div>
 
-    <div class="workbench-container">
+    <div class="workbench-container wtop">
       <ServerReg />
       <ClientReg />
     </div>
@@ -20,14 +20,15 @@ const value = ref("");
 .workbench-main {
   height: 100%;
   width: 100%;
-  padding: 4px;
 
   .workbench-container {
-    margin-top: 6px;
     display: grid;
     grid-template-columns: repeat(2, minmax(0px, 1fr));
     gap: 6px;
   }
 
+  .wtop {
+    margin-top: 6px;
+  }
 }
 </style>

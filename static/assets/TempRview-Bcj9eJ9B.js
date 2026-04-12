@@ -1,0 +1,1 @@
+import{R as e,h as t}from"./runtime-core.esm-bundler-fv2244ep.js";import{t as n}from"./_plugin-vue_export-helper-CRt-r6Cj.js";var r={},i={class:`content`};function a(n,r){return e(),t(`div`,i)}var o=n(r,[[`render`,a],[`__scopeId`,`data-v-e108e62d`]]);export{o as default};

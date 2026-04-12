@@ -89,10 +89,10 @@ natsjob.heartbeat.client.{namespace}.{appName}.{clientId}
 
 | 等级 | 名称 | 心跳 | 写库 | 并发/超时控制 | 精准投递策略 |
 |------|------|------|------|--------------|-------------|
-| plus | 筑基-plus | 不需要 | 不写库 | 无 | 无 |
-| max | 金丹-max | 不需要 | 写库 | 支持 | 无 |
-| pro | 元婴-pro | **必须** | 写库 | 支持 | 无 |
-| ultra | 道祖-ultra | **必须** | 写库 | 支持 | 随机/轮询/最先注册/最大权重 |
+| plus | 轻量-plus | 不需要 | 不写库 | 无 | 无 |
+| max | 基础-max | 不需要 | 写库 | 支持 | 无 |
+| pro | 专业-pro | **必须** | 写库 | 支持 | 无 |
+| ultra | 客户端-ultra | **必须** | 写库 | 支持 | 随机/轮询/最先注册/最大权重 |
 
 > **规范重点**：pro 和 ultra 模式客户端**必须**注册心跳，natsjob 检测不到心跳时不会下发任务。
 
@@ -234,7 +234,7 @@ Subject：`natsjob.job.sub-result-flow`（固定值，客户端发起）
   "sceneId": "scene-1",
   "sceneName": "场景1",
   "status": "process1",
-  "reason": "进入金丹境",
+  "reason": "进入基础境",
   "monitorStatus": "monitoring:email",
   "monitorPayload": "积压1w条数据",
   "startAt": "2099-09-09 14:47:24.000",

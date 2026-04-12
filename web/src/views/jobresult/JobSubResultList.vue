@@ -7,7 +7,7 @@
                         <el-empty description="暂无数据" />
                     </div>
                     <template v-else>
-                        <n-card v-for="(row, index) in table.data" :key="row.id" class="result-card" embedded>
+                        <el-card v-for="(row, index) in table.data" :key="row.id" class="result-card">
                             <template #header>
                                 <div class="card-header">
                                     <span class="card-index">#{{ (page.current - 1) * page.size + index + 1 }}</span>
@@ -36,7 +36,7 @@
                                 <el-descriptions-item label="监控状态">
                                     {{ row.monitorStatus || '-' }}
                                 </el-descriptions-item>
-                                <el-descriptions-item label="监控随路数据" :span="3">
+                                <el-descriptions-item label="监控随路数据">
                                     <el-text type="info">{{ row.monitorPayload || '-' }}</el-text>
                                 </el-descriptions-item>
                                 <el-descriptions-item label="开始/结束时间">
@@ -52,7 +52,7 @@
                                     {{ row.updatedAt }}
                                 </el-descriptions-item>
                             </el-descriptions>
-                        </n-card>
+                        </el-card>
                     </template>
                 </div>
                 <div class="center pagination-wrapper">
@@ -126,33 +126,6 @@ defineExpose({
 
     .result-card {
         margin-bottom: 12px;
-
-        &:last-child {
-            margin-bottom: 0;
-        }
-
-        :deep(.n-card-header) {
-            padding-bottom: 8px;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-
-            .card-index {
-                font-weight: 600;
-                color: var(--n-text-color-3);
-                font-size: 14px;
-            }
-
-            .card-id {
-                font-weight: 500;
-                color: var(--n-text-color);
-                font-size: 14px;
-                word-break: break-all;
-            }
-        }
     }
 
     .pagination-wrapper {

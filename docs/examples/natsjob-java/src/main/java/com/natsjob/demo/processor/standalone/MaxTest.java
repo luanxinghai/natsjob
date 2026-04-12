@@ -32,8 +32,8 @@ public class MaxTest {
 
                         //自定义场景
                         for (int i = 0; i < 10; i++) {
-                            sendFlowMessage(nc, jobMessage, "client-A", "scene-1", "场景1", "process1", "进入金丹境"+i);
-                            sendFlowMessage(nc, jobMessage, "client-B", "scene-2", "场景2", "process2", "进入元婴境"+i);
+                            sendFlowMessage(nc, jobMessage, "client-A", "scene-1", "场景1", "process1", "进入基础境"+i);
+                            sendFlowMessage(nc, jobMessage, "client-B", "scene-2", "场景2", "process2", "进入专业境"+i);
                             sendFlowMessage(nc, jobMessage, "client-C", "scene-3", "场景3", "process3", "化神嘻嘻了"+i);
                         }
                         //结束任务

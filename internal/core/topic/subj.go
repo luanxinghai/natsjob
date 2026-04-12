@@ -37,35 +37,36 @@ var JOB_SUBJ = SubjStruct{
 	Monitor:         "natsjob.job.monitor",
 }
 
-func JobVoidStartSubj(task *enums.JobCron) string {
-	return strutil.JoinByDot(JOB_SUBJ.VoidStart, task.Namespace, task.AppName, task.JobName)
-}
-
-func JobVoidPreStartSubj(task *enums.JobCron) string {
-	return strutil.JoinByDot(JOB_SUBJ.VoidPreStart, task.Namespace, task.AppName, task.JobName)
-}
+//
+//func JobVoidStartSubj(task *enums.JobCron) string {
+//	return strutil.JoinByDot(JOB_SUBJ.VoidStart, task.Namespace, task.AppName, task.JobName)
+//}
+//
+//func JobVoidPreStartSubj(task *enums.JobCron) string {
+//	return strutil.JoinByDot(JOB_SUBJ.VoidPreStart, task.Namespace, task.AppName, task.JobName)
+//}
 
 func JobPreStartSubj(task *enums.JobCron) string {
-	if task.SubjectModel == "memory" {
+	if strings.EqualFold(task.SubjectModel, "memory") {
 		return strutil.JoinByDot(JOB_SUBJ.VoidPreStart, task.Namespace, task.AppName, task.JobName)
 	}
 	return strutil.JoinByDot(JOB_SUBJ.PreStart, task.Namespace, task.AppName, task.JobName)
 }
 func JobStartSubj(task *enums.JobCron) string {
-	if task.SubjectModel == "memory" {
+	if strings.EqualFold(task.SubjectModel, "memory") {
 		return strutil.JoinByDot(JOB_SUBJ.VoidStart, task.Namespace, task.AppName, task.JobName)
 	}
 	return strutil.JoinByDot(JOB_SUBJ.Start, task.Namespace, task.AppName, task.JobName)
 }
 func JobClientStartSubj(task *enums.JobCron, clientId string) string {
-	if task.SubjectModel == "memory" {
+	if strings.EqualFold(task.SubjectModel, "memory") {
 		return strutil.JoinByDot(JOB_SUBJ.VoidStart, task.Namespace, task.AppName, task.JobName, clientId)
 	}
 	return strutil.JoinByDot(JOB_SUBJ.ClientStart, task.Namespace, task.AppName, task.JobName, clientId)
 }
 
 func JobGroupStartSubj(task *enums.JobCron) string {
-	if task.SubjectModel == "memory" {
+	if strings.EqualFold(task.SubjectModel, "memory") {
 		return strutil.JoinByDot(JOB_SUBJ.VoidGroupStart, task.Namespace, task.AppName, task.JobName)
 	}
 	return strutil.JoinByDot(JOB_SUBJ.GroupStart, task.Namespace, task.AppName, task.JobName)

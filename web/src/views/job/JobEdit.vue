@@ -5,7 +5,9 @@
                 {{ form.id }}
             </el-form-item>
             <el-form-item label="订阅主题">
-                <el-text type="success" size="large"> {{ subjectValue }}</el-text>
+                <n-alert :bordered="false" :show-icon="false" style="width: 100%;" v-if="subjectValue != ''">
+                    {{ subjectValue }}
+                </n-alert>
             </el-form-item>
             <GridRow>
                 <el-form-item label="状态" prop="status">
@@ -96,9 +98,9 @@ const {
             description: null,
             namespaceId: null,
             appId: null,
-            category: "",
-            model: "",
-            subjectModel: "jetStream",
+            category: "standalone",
+            model: "pro",
+            subjectModel: "memory",
             status: 0,
             cron: "@every 10s",
             maxWorkers: 1,

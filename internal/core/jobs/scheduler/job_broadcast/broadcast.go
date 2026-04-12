@@ -14,8 +14,8 @@ import (
 
 func PubNext(job *enums.JobCron) {
 	switch job.JobModel {
-	case enums.JobModels.Lite.Type:
-		liteJob(job)
+	//case enums.JobModels.Lite.Type:
+	//	liteJob(job)
 	case enums.JobModels.Plus.Type:
 		plusJob(job)
 	case enums.JobModels.Max.Type:
@@ -65,10 +65,10 @@ func getJobMessage(job *enums.JobCron, endKvKey bool) enums.JobMessage {
 	}
 }
 
-func liteJob(job *enums.JobCron) {
-	message := getJobMessage(job, false)
-	schedule_service.Publish(job.NatsClient, topic.JobVoidStartSubj(job), &message.JobPubMessage)
-}
+//func liteJob(job *enums.JobCron) {
+//	message := getJobMessage(job, false)
+//	schedule_service.Publish(job.NatsClient, topic.JobVoidStartSubj(job), &message.JobPubMessage)
+//}
 
 func plusJob(job *enums.JobCron) {
 	message := getJobMessage(job, false)

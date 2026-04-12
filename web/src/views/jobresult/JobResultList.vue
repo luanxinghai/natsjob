@@ -52,7 +52,7 @@
                     <JobCategoryLabel v-model="row.category" />
                 </template>
             </el-table-column>
-            <el-table-column prop="model" label="模式" min-width="120">
+            <el-table-column prop="model" label="模式" min-width="120" show-overflow-tooltip>
                 <template #default="{ row }">
                     <JobModelLabel v-model="row.model" />
                 </template>

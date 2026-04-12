@@ -1,10 +1,10 @@
 <template>
   <div class="main-login">
-
     <div class="login center">
       <el-card shadow="always" :body-style="{ padding: '10px' }" class="login-card">
         <div class="center">
           <div class="login-title">NatsJob</div>
+          <div class="login-subtitle">轻量、可控、场景 分布式定时任务</div>
         </div>
 
         <div class="login-center">
@@ -12,21 +12,21 @@
             <el-form :model="loginInfo" :rules="rules" ref="loginForm" label-width="1px" class="login-form"
               size="large">
               <el-form-item label="" prop="userId">
-                <el-input v-model.trim="loginInfo.userId" placeholder="账号" prefix-icon="User"
-                  @keyup.enter="login"></el-input>
+                <el-input v-model.trim="loginInfo.userId" placeholder="账号" prefix-icon="User" @keyup.enter="login"
+                  class="input-with-shadow"></el-input>
               </el-form-item>
               <el-form-item label prop="passwd">
                 <el-input v-model.trim="loginInfo.passwd" placeholder="密码" type="password" prefix-icon="Lock"
-                  @keyup.enter="login"></el-input>
+                  @keyup.enter="login" class="input-with-shadow"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="login" round style="width: 100%; margin-top: 20px">
+                <el-button type="primary" @click="login" round class="login-button">
                   登&nbsp;&nbsp;&nbsp;&nbsp;录
                 </el-button>
               </el-form-item>
               <el-form-item>
                 <div class="center" style="width: 100%;">
-                  <i class="ri-github-fill ri-2x" @click="openLuanxinghai"></i>
+                  <i class="ri-github-fill ri-2x github-icon" @click="openLuanxinghai"></i>
                 </div>
               </el-form-item>
             </el-form>
@@ -38,6 +38,8 @@
 </template>
 
 <script setup>
+import { ref, reactive, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
 import { setLogin } from "@/app/app"
 import { useApiLogin, useAesPasswd } from "@/api/login";
 const router = useRouter();
@@ -114,6 +116,13 @@ const openLuanxinghai = () => {
     margin-left: 50%;
     float: right;
     border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    // &:hover {
+    //   transform: translateY(-5px);
+    //   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    // }
   }
 
   .login-title {
@@ -123,6 +132,14 @@ const openLuanxinghai = () => {
     line-height: 30px;
     margin-bottom: 0px;
     margin: 25px 0;
+    color: #333;
+  }
+
+  .login-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 20px;
+    text-align: center;
   }
 
   .login-center {
@@ -135,6 +152,47 @@ const openLuanxinghai = () => {
       width: 100%;
       padding: 0 10px;
     }
+  }
+
+  .input-with-shadow {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease;
+
+    &:focus {
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+  }
+
+  .login-button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 12px 0;
+    font-size: 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+  }
+
+  .github-icon {
+    color: #666;
+    transition: color 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+      color: #333;
+      transform: scale(1.1);
+    }
+  }
+
+  .center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
   }
 
 }

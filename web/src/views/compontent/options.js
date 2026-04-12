@@ -20,7 +20,7 @@ export const jobCategoryOptions = [
   },
   {
     value: "map",
-    label: "map",
+    label: "MAP",
   },
   // {
   //   value: "group",
@@ -32,25 +32,25 @@ export const jobCategoryOptions = [
   // },
 ]
 export const jobModelOptions = [
-  // {
-  //   value: "lite",
-  //   label: "炼气-lite",
-  // },
   {
     value: "plus",
-    label: "筑基-plus",
+    label: "轻量",
+    desc: "无写库，无心跳",
   },
   {
     value: "max",
-    label: "金丹-max",
+    label: "基础",
+    desc: "有写库，无心跳",
   },
   {
     value: "pro",
-    label: "元婴-pro",
+    label: "专业",
+    desc: "有写库，有心跳",
   },
   {
     value: "ultra",
-    label: "道祖-ultra",
+    label: "客户端",
+    desc: "有写库，有心跳",
   },
 ]
 
@@ -75,11 +75,11 @@ export const jobConditionOptions = [
 
 export const subjectModelOptions = [
   {
-    value: "JetStream",
-    label: "JetStream",
+    value: "jetStream",
+    label: "持久(JetStream)",
   },
   {
     value: "memory",
-    label: "内存",
+    label: "内存(Memory)",
   },
 ]

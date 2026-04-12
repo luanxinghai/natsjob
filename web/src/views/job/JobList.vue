@@ -53,12 +53,15 @@
                     <JobCategoryLabel v-model="row.category" />
                 </template>
             </el-table-column>
-            <el-table-column prop="model" label="模式" min-width="140">
+            <el-table-column prop="model" label="模式" min-width="120" show-overflow-tooltip>
                 <template #default="{ row }">
                     <JobModelLabel v-model="row.model" />
                 </template>
             </el-table-column>
             <el-table-column prop="subjectModel" label="主题模式" min-width="140">
+                <template #default="{ row }">
+                    <SubjectModelLabel v-model="row.subjectModel" />
+                </template>
             </el-table-column>
             <el-table-column prop="maxWorkers" label="最大并发" min-width="120"></el-table-column>
             <el-table-column prop="timeoutSeconds" label="超时时间(秒)" min-width="120"></el-table-column>

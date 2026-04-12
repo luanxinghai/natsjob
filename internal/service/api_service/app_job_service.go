@@ -398,7 +398,7 @@ func getVo(v *model.NjAppJob) *pojo.AppJobVo {
 	}
 
 	if vo.SubjectModel == "" {
-		vo.SubjectModel = "JetStream"
+		vo.SubjectModel = "memory"
 	}
 
 	return vo

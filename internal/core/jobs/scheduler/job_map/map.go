@@ -15,8 +15,8 @@ import (
 // 前置任务
 func PubNextPre(job *enums.JobCron) {
 	switch job.JobModel {
-	case enums.JobModels.Lite.Type:
-		liteJobPre(job)
+	//case enums.JobModels.Lite.Type:
+	//	liteJobPre(job)
 	case enums.JobModels.Plus.Type:
 		plusJobPre(job)
 	case enums.JobModels.Max.Type:
@@ -86,10 +86,10 @@ func getJobMessageBase(job *enums.JobCron, taskId int64, endKvKey bool, isPreKey
 	}
 }
 
-func liteJobPre(job *enums.JobCron) {
-	message := getJobMessagePre(job, false)
-	schedule_service.Publish(job.NatsClient, topic.JobVoidPreStartSubj(job), &message.JobPubMessage)
-}
+//func liteJobPre(job *enums.JobCron) {
+//	message := getJobMessagePre(job, false)
+//	schedule_service.Publish(job.NatsClient, topic.JobVoidPreStartSubj(job), &message.JobPubMessage)
+//}
 
 func plusJobPre(job *enums.JobCron) {
 	message := getJobMessagePre(job, false)
