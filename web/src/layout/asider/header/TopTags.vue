@@ -1,27 +1,15 @@
 <template>
-  <!-- <div style="display: flex; flex: 1; width: 100%;"> -->
   <div class="scrm-tags" ref="elTag">
     <div class="center tagMove-left" :style="setpScroll.left" @click="scrollInitAdd(true)">
-      <!-- 1 {{ width }}-{{ height }} -->
-      <!-- <i class="ri-rewind-mini-line"></i> -->
       <i class="ri-arrow-left-s-line"></i>
     </div>
     <div style="width: calc(100% - 60px);">
-      <!-- {{ tagList }} -->
       <ul ref="tagsRef">
         <li v-for="tag in tagList" v-bind:key="tag" :class="[
           isActive(tag) ? 'active' : '',
           tag.meta.affix ? 'affix' : '',
         ]" @contextmenu.prevent="openContextMenu($event, tag)">
-          <!-- <a>
-            <span>{{ tag.meta.title }}</span>
-            <el-icon v-if="tag.meta.closeTag" @click.prevent.stop="closeSelectedTag(tag)">
-              <Close />
-            </el-icon>
-            <Close />
-          </a> -->
           <router-link :to="tag">
-            <!-- {{ tag.query }} -->
             <span>{{ tag.meta.title }}</span>
             <el-icon v-if="tag.meta.closeTag" @click.prevent.stop="closeSelectedTag(tag)">
               <Close />
@@ -31,11 +19,10 @@
       </ul>
     </div>
     <div class="center tagMove-right" :style="setpScroll.right" @click="scrollInitAdd(false)">
-      <!-- <i class="ri-arrow-right-s-line ri-xl"></i> -->
       <i class="ri-arrow-right-s-line"></i>
     </div>
   </div>
-  <!-- </div> -->
+
   <transition name="el-zoom-in-top">
     <ul v-if="contextMenuVisible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu" id="contextmenu">
       <li @click="refreshTab()">
@@ -85,7 +72,7 @@ import { useActiveRoutePath } from '@/router/routeWatch.js'
 import { useTabsStore } from '@/stores/useTabsStore.js'
 import { exitMinimize } from '@/utils/theme.js'
 import { debounce } from '@/utils/tools.js'
-import { nsId, nsName } from "@/hooks/namespace"
+
 const { activeRoutePath } = useActiveRoutePath()
 const tabsStore = useTabsStore()
 const route = useRoute()
@@ -431,88 +418,206 @@ const tagDrop = () => {
     animation: 300,
   })
 }
-
-watch(nsId, () => {
-  closeAllTabs()
-})
-
 </script>
 
-<style>
-.menu-item {
-  cursor: pointer;
-  padding: 0px 10px;
-}
+<style lang="scss" scoped>
+// ─── 变量 ────────────────────────────────────────────────
+$bg: #FFFFFF;
+$text-main: #303133;
+$text-muted: #606266;
+$text-light: #909399;
+$bg-tag: #F5F7FA;
+$border: #E4E7ED;
+$shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+$radius: 6px;
+$transition: 150ms ease;
 
-.contextmenu {
-  position: fixed;
-  width: 125px;
-  margin: 0;
-  border-radius: 0px;
-  background: #fff;
-  border: 1px solid #e4e7ed;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  z-index: 3000;
-  list-style-type: none;
-  padding: 10px 0;
-}
-
-.contextmenu hr {
-  margin: 5px 0;
-  border: none;
-  height: 1px;
-  font-size: 0px;
-  background-color: #ebeef5;
-}
-
-.contextmenu li {
+// ─── 整体标签栏 ──────────────────────────────────────────
+.scrm-tags {
   display: flex;
   align-items: center;
+  height: 36px;
+  background: $bg;
+  border-bottom: 1px solid $border;
+  box-shadow: $shadow;
+  user-select: none;
+
+  // 滚动按钮
+  .tagMove-left,
+  .tagMove-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: $radius;
+    cursor: pointer;
+    color: $text-light;
+    background: transparent;
+    transition: background $transition, color $transition;
+    flex-shrink: 0;
+
+    &:hover {
+      background: var(--el-color-primary-light-9);
+      color: var(--el-color-primary);
+    }
+  }
+
+  // 标签列表
+  ul {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  // 单个标签
+  li {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    height: 28px;
+    margin: 0 3px;
+    border-radius: $radius;
+    background: $bg-tag;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background $transition, border-color $transition, color $transition;
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 12px;
+      text-decoration: none;
+      color: $text-muted;
+      font-size: 13px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    &:hover {
+      background: var(--el-color-primary-light-9);
+      border-color: var(--el-color-primary-light-5);
+      color: var(--el-color-primary);
+
+      a {
+        color: var(--el-color-primary);
+      }
+    }
+
+    // 激活态 - 使用主题色
+    &.active {
+      background: var(--el-color-primary);
+      border-color: var(--el-color-primary);
+      color: #fff;
+
+      a {
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .el-icon {
+        color: rgba(255, 255, 255, 0.8);
+
+        &:hover {
+          color: #fff;
+          background: rgba(255, 255, 255, 0.15);
+          border-radius: 50%;
+        }
+      }
+    }
+
+    // 固定标签（非激活态时轻度淡化）
+    &.affix:not(.active) {
+      opacity: 0.85;
+    }
+
+    // 固定标签处于激活态时，完全正常高亮
+    &.affix.active {
+      opacity: 1;
+    }
+
+    // 关闭图标
+    :deep(.el-icon) {
+      display: flex;
+      align-items: center;
+      color: #C0C4CC;
+      font-size: 12px;
+      transition: color $transition, background $transition;
+
+      &:hover {
+        color: #F56C6C;
+        background: rgba(245, 108, 108, 0.1);
+        border-radius: 50%;
+      }
+    }
+  }
+}
+
+// ─── 右键菜单 ────────────────────────────────────────────
+.contextmenu {
+  position: fixed;
+  width: 130px;
   margin: 0;
-  cursor: pointer;
-  line-height: 30px;
-  padding: 0 17px;
-  color: #606266;
-}
+  background: $bg;
+  border: 1px solid #E8E8E8;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  z-index: 3000;
+  list-style-type: none;
+  padding: 6px 0;
+  overflow: hidden;
 
-.contextmenu li i {
-  font-size: 14px;
-  margin-right: 10px;
-}
+  hr {
+    margin: 4px 0;
+    border: none;
+    height: 1px;
+    background-color: #F0F0F0;
+  }
 
-.contextmenu li:hover {
-  background-color: #ecf5ff;
-  color: var(--el-color-primary);
-  /* #66b1ff; */
-}
+  li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    cursor: pointer;
+    line-height: 32px;
+    padding: 0 14px;
+    color: $text-main;
+    font-size: 13px;
+    transition: background $transition, color $transition;
 
-.contextmenu li.disabled {
-  cursor: not-allowed;
-  color: #bbb;
-  background: transparent;
-}
+    .el-icon {
+      font-size: 14px;
+      color: $text-light;
+    }
 
-.tags-tip {
-  padding: 5px;
-}
+    &:hover {
+      background-color: var(--el-color-primary-light-9);
+      color: var(--el-color-primary);
 
-.tags-tip p {
-  margin-bottom: 10px;
-}
+      .el-icon {
+        color: var(--el-color-primary);
+      }
+    }
 
-.tagMove-left {
-  /* border-right: 1px solid #e5e6eb9c; */
-  cursor: pointer;
-  width: 30px;
-  /* margin: 3px 0; */
-  background: #fff;
-}
+    &.disabled {
+      cursor: not-allowed;
+      color: #C0C4CC;
+      background: transparent;
 
-.tagMove-right {
-  /* border-left: 1px solid #e5e6eb9c; */
-  cursor: pointer;
-  width: 30px;
-  /* margin: 3px 0; */
-  background: #fff;
+      .el-icon {
+        color: #C0C4CC;
+      }
+    }
+  }
 }
 </style>

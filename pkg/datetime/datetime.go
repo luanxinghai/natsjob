@@ -6,10 +6,11 @@ import (
 )
 
 const (
-	DateFormat       = "2006-01-02"
-	DateTimeFormat   = "2006-01-02 15:04:05"
-	DateTimeFormatMs = "2006-01-02 15:04:05.000"
-	TimeFormat       = "15:04:05"
+	DateFormat         = "2006-01-02"
+	DateTimeFormat     = "2006-01-02 15:04:05"
+	DateTimeFormatMs   = "2006-01-02 15:04:05.000"
+	DateTimeFormatMsss = "2006-01-02 15:04:05.000000"
+	TimeFormat         = "15:04:05"
 )
 
 func DateTime(now time.Time) string {
@@ -47,39 +48,20 @@ func NowTime() string {
 	return time.Now().Format(TimeFormat)
 }
 
-//	func ParseDateTime(dateTime string) time.Time {
-//	   t, err := time.ParseInLocation(DateTimeFormat, dateTime, time.Local)
-//	   if err != nil {
-//	      return time.Time{}
-//	   }
-//	   return t
-//	}
-//
-//	func ParseDateTimeMs(dateTime string) time.Time {
-//	   t, err := time.ParseInLocation(DateTimeFormatMs, dateTime, time.Local)
-//	   if err != nil {
-//	      return time.Time{}
-//	   }
-//	   return t
-//	}
 func ParseDateTimeOrNil(dateTime string) *time.Time {
 	if dateTime == "" {
 		return nil
 	}
 
-	if len(dateTime) == len(DateTimeFormat) {
-		t, err := time.ParseInLocation(DateTimeFormat, dateTime, time.Local)
-		if err != nil {
+	formats := []string{DateTimeFormat, DateTimeFormatMs, DateTimeFormatMsss}
+	for _, format := range formats {
+		if len(dateTime) == len(format) {
+			t, err := time.ParseInLocation(format, dateTime, time.Local)
+			if err == nil {
+				return &t
+			}
 			return nil
 		}
-		return &t
-	}
-	if len(dateTime) == len(DateTimeFormatMs) {
-		t, err := time.ParseInLocation(DateTimeFormatMs, dateTime, time.Local)
-		if err != nil {
-			return nil
-		}
-		return &t
 	}
 
 	// 13位时间戳 1769398015557

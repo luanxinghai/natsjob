@@ -1,0 +1,1 @@
+import{R as e,p as t}from"./runtime-core.esm-bundler-fv2244ep.js";import{t as n}from"./_plugin-vue_export-helper-CRt-r6Cj.js";import{t as r}from"./css-DB71l0OG.js";var i={};function a(n,i){let a=r;return e(),t(a,{name:`ri-registered-line`})}var o=n(i,[[`render`,a]]);export{o as t};

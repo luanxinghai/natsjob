@@ -5,7 +5,7 @@
                 <el-form-item label="状态" prop="status">
                     <el-input v-model.trim="searchForm.status" clearable style="width: 140px"></el-input>
                 </el-form-item>
-                <el-form-item label="原因" prop="reason">
+                <el-form-item label="说明" prop="reason">
                     <el-input v-model.trim="searchForm.reason" clearable style="width: 140px"></el-input>
                 </el-form-item>
                 <el-form-item label="监控状态" prop="monitorStatus">
@@ -35,7 +35,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column prop="reason" label="原因" min-width="200" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="reason" label="说明" min-width="200" show-overflow-tooltip></el-table-column>
             <el-table-column prop="monitorStatus" label="监控状态" min-width="200" show-overflow-tooltip></el-table-column>
             <el-table-column prop="monitorPayload" label="监控随路数据" min-width="200"
                 show-overflow-tooltip></el-table-column>

@@ -1,5 +1,9 @@
 <template>
-    <n-card :title="'客户端注册(' + nsName + ')'">
+    <n-card>
+        <template #header>
+            客户端注册({{ nsName }})
+            <el-divider direction="vertical" />数量: {{ data.length }}
+        </template>
         <template #header-extra>
             <n-countdown ref="countdown" :duration="10000" :active="true" :on-finish="onFinish" />
             <SpaceGap />
@@ -37,7 +41,7 @@ const data = ref([])
 const getData = async () => {
     searchFields.namespace = nsName
     const res = await $post("natsjob/api/console/client-reg-ns", searchFields)
-    data.value = res
+    data.value = res || []
 }
 
 const viewRef = ref()
