@@ -22,7 +22,7 @@ type AppJobDto struct {
 	Model          string `json:"model" binding:"required"`
 	SubjectModel   string `json:"subjectModel"`
 	Status         int8   `json:"status" binding:"min=0,max=1"`
-	Condition      string `json:"condition"`
+	ConditionValue string `json:"conditionValue"`
 	MaxWorkers     int32  `json:"maxWorkers"`
 	TimeoutSeconds int32  `json:"timeoutSeconds"`
 	Reason         string `json:"reason"`
@@ -41,7 +41,7 @@ type AppJobUpdateDto struct {
 	Model          string `json:"model" binding:"required"`
 	SubjectModel   string `json:"subjectModel"`
 	Status         int8   `json:"status" binding:"min=0,max=1"`
-	Condition      string `json:"condition"`
+	ConditionValue string `json:"conditionValue"`
 	MaxWorkers     int32  `json:"maxWorkers"`
 	TimeoutSeconds int32  `json:"timeoutSeconds"`
 	Reason         string `json:"reason"`
@@ -68,7 +68,7 @@ type AppJobVo struct {
 	Model          string `json:"model"`
 	SubjectModel   string `json:"subjectModel"`
 	Status         int8   `json:"status"`
-	Condition      string `json:"condition"`
+	ConditionValue string `json:"conditionValue"`
 	MaxWorkers     int32  `json:"maxWorkers"`
 	TimeoutSeconds int32  `json:"timeoutSeconds"`
 	Description    string `json:"description"`

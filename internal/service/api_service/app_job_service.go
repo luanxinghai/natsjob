@@ -140,7 +140,7 @@ func AppJobCreate(c *gin.Context) {
 		Model:          dto.Model,
 		SubjectModel:   dto.SubjectModel,
 		Status:         dto.Status,
-		Condition:      dto.Condition,
+		ConditionValue: dto.ConditionValue,
 		MaxWorkers:     dto.MaxWorkers,
 		TimeoutSeconds: dto.TimeoutSeconds,
 		Args:           dto.Args,
@@ -219,7 +219,7 @@ func AppJobUpdate(c *gin.Context) {
 		Model:          dto.Model,
 		SubjectModel:   dto.SubjectModel,
 		Status:         dto.Status,
-		Condition:      dto.Condition,
+		ConditionValue: dto.ConditionValue,
 		MaxWorkers:     dto.MaxWorkers,
 		TimeoutSeconds: dto.TimeoutSeconds,
 		Args:           dto.Args,
@@ -237,7 +237,7 @@ func AppJobUpdate(c *gin.Context) {
 	updateFields = append(updateFields, q.NjAppJob.Model)
 	updateFields = append(updateFields, q.NjAppJob.SubjectModel)
 	updateFields = append(updateFields, q.NjAppJob.Status)
-	updateFields = append(updateFields, q.NjAppJob.Condition)
+	updateFields = append(updateFields, q.NjAppJob.ConditionValue)
 	updateFields = append(updateFields, q.NjAppJob.MaxWorkers)
 	updateFields = append(updateFields, q.NjAppJob.TimeoutSeconds)
 	updateFields = append(updateFields, q.NjAppJob.StartAt)
@@ -390,7 +390,7 @@ func getVo(v *model.NjAppJob) *pojo.AppJobVo {
 		StartAt:        datetime.DateTimeNil(v.StartAt),
 		EndAt:          datetime.DateTimeNil(v.EndAt),
 		Reason:         v.Reason,
-		Condition:      v.Condition,
+		ConditionValue: v.ConditionValue,
 		AppId:          strutil.ToStr(v.AppId),
 		NamespaceId:    strutil.ToStr(v.NamespaceId),
 		CreatedAt:      datetime.DateTime(v.CreatedAt),

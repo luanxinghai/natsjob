@@ -1,7 +1,7 @@
 <template>
     <TableView :data="table.data" :page="page" :search="useTableSearch">
         <template #search>
-            <el-form :inline="true" :model="searchForm" :rules="rules" ref="searchRef" label-width="80px">
+            <el-form :inline="true" :model="searchForm" :rules="rules" ref="searchRef" label-width="80px" @keyup.enter="useTableSearchFormSubmit">
                 <el-form-item label="服务名" prop="name">
                     <el-input v-model.trim="searchForm.name" clearable style="width: 140px;"></el-input>
                 </el-form-item>

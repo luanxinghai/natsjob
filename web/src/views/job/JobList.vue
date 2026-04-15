@@ -1,7 +1,7 @@
 <template>
     <TableView :data="table.data" :page="page" :search="useTableSearch">
         <template #search>
-            <el-form :inline="true" :model="searchForm" :rules="rules" ref="searchRef" label-width="80px">
+            <el-form :inline="true" :model="searchForm" :rules="rules" ref="searchRef" label-width="80px" @keyup.enter="useTableSearchFormSubmit">
                 <el-form-item label="服务名" prop="name">
                     <el-input v-model.trim="searchForm.name" clearable style="width: 140px"></el-input>
                 </el-form-item>
@@ -24,13 +24,17 @@
         <template #header>
             <CreateBtn :onclick="createData" />
             <RefreshIconBtn :onclick="useTableSearch" />
-            <SpaceGap />
+            <el-divider direction="vertical" />
+            <n-button tertiary type="primary" round size="small">
+                {{ jobName }}
+            </n-button>
+            <el-divider direction="vertical" />
             <el-tooltip effect="dark" placement="top">
                 <template #content>
                     执行任务与标准下发策略完全相同, 不符合条件不会执行<br />
                     例如: 超过并发数,无注册服务,非主节点等
                 </template>
-                <i class="ri-question-line ri-xl"></i>
+                <i class="ri-question-line ri-xl" style="color: gray;"> </i>
             </el-tooltip>
         </template>
         <template #column>
@@ -65,9 +69,9 @@
             </el-table-column>
             <el-table-column prop="maxWorkers" label="最大并发" min-width="120"></el-table-column>
             <el-table-column prop="timeoutSeconds" label="超时时间(秒)" min-width="120"></el-table-column>
-            <el-table-column prop="condition" label="条件" min-width="140">
+            <el-table-column prop="conditionValue" label="条件" min-width="140">
                 <template #default="{ row }">
-                    <JobConditionLabel v-model="row.condition" />
+                    <JobConditionLabel v-model="row.conditionValue" />
                 </template>
             </el-table-column>
             <el-table-column prop="args" label="参数" min-width="120" show-overflow-tooltip></el-table-column>``
@@ -106,6 +110,7 @@
 <script setup name="JobList">
 const route = useRoute();
 const editRef = ref();
+const jobName = ref(route.params.jobName)
 const {
     table,
     page,
@@ -151,7 +156,8 @@ const jobResultTab = (row) => {
         name: "JobResultList",
         params: {
             cmd: "detail",
-            jobId: row.id
+            jobId: row.id,
+            jobName: jobName.value
         },
         meta: {
             title: "任务结果列表",

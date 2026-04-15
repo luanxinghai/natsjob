@@ -1,1 +1,0 @@
-import{a as e}from"./tools-CqRTnlST.js";import{i as t}from"./vue-router-BArmJ8pO.js";var n={TOKEN:`token`},r=e=>{sessionStorage.setItem(n.TOKEN,e.token)},i=e=>{},a=(e=!1)=>{o()},o=()=>{s(),setTimeout(()=>{window.location.href=window.location.origin},1e3)},s=()=>{e(n.TOKEN);try{t().replace({path:`/natsjob/login`})}catch(e){console.error(e)}};export{r as n,a as r,i as t};

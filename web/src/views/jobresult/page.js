@@ -1,6 +1,6 @@
 export default [
   {
-    path: "/job/result/list/:cmd/:jobId?",
+    path: "/job/result/list/:cmd/:jobId?/:jobName?",
     name: "JobResultList",
     component: "JobResultList",
     meta: {

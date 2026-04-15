@@ -38,6 +38,7 @@ func newNjAppJobResult(db *gorm.DB, opts ...gen.DOOption) njAppJobResult {
 	_njAppJobResult.Model = field.NewString(tableName, "model")
 	_njAppJobResult.Status = field.NewString(tableName, "status")
 	_njAppJobResult.Reason = field.NewString(tableName, "reason")
+	_njAppJobResult.ClientID = field.NewString(tableName, "client_id")
 	_njAppJobResult.MonitorStatus = field.NewString(tableName, "monitor_status")
 	_njAppJobResult.MonitorPayload = field.NewString(tableName, "monitor_payload")
 	_njAppJobResult.TimeSpan = field.NewInt64(tableName, "time_span")
@@ -67,6 +68,7 @@ type njAppJobResult struct {
 	Model          field.String // '模式'
 	Status         field.String // 状态
 	Reason         field.String // '结果说明'
+	ClientID       field.String // '客户端id'
 	MonitorStatus  field.String // '监控状态'
 	MonitorPayload field.String // '监控随路数据'
 	TimeSpan       field.Int64  // '耗时'
@@ -102,6 +104,7 @@ func (n *njAppJobResult) updateTableName(table string) *njAppJobResult {
 	n.Model = field.NewString(table, "model")
 	n.Status = field.NewString(table, "status")
 	n.Reason = field.NewString(table, "reason")
+	n.ClientID = field.NewString(table, "client_id")
 	n.MonitorStatus = field.NewString(table, "monitor_status")
 	n.MonitorPayload = field.NewString(table, "monitor_payload")
 	n.TimeSpan = field.NewInt64(table, "time_span")
@@ -138,7 +141,7 @@ func (n *njAppJobResult) GetFieldByName(fieldName string) (field.OrderExpr, bool
 }
 
 func (n *njAppJobResult) fillFieldMap() {
-	n.fieldMap = make(map[string]field.Expr, 19)
+	n.fieldMap = make(map[string]field.Expr, 20)
 	n.fieldMap["id"] = n.ID
 	n.fieldMap["namespace_id"] = n.NamespaceId
 	n.fieldMap["namespace"] = n.Namespace
@@ -150,6 +153,7 @@ func (n *njAppJobResult) fillFieldMap() {
 	n.fieldMap["model"] = n.Model
 	n.fieldMap["status"] = n.Status
 	n.fieldMap["reason"] = n.Reason
+	n.fieldMap["client_id"] = n.ClientID
 	n.fieldMap["monitor_status"] = n.MonitorStatus
 	n.fieldMap["monitor_payload"] = n.MonitorPayload
 	n.fieldMap["time_span"] = n.TimeSpan

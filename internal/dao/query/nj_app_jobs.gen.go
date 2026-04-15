@@ -34,7 +34,7 @@ func newNjAppJob(db *gorm.DB, opts ...gen.DOOption) njAppJob {
 	_njAppJob.Model = field.NewString(tableName, "model")
 	_njAppJob.SubjectModel = field.NewString(tableName, "subject_model")
 	_njAppJob.Status = field.NewInt8(tableName, "status")
-	_njAppJob.Condition = field.NewString(tableName, "condition")
+	_njAppJob.ConditionValue = field.NewString(tableName, "condition_value")
 	_njAppJob.MaxWorkers = field.NewInt32(tableName, "max_workers")
 	_njAppJob.TimeoutSeconds = field.NewInt32(tableName, "timeout_seconds")
 	_njAppJob.Description = field.NewString(tableName, "description")
@@ -64,7 +64,7 @@ type njAppJob struct {
 	Model          field.String // '模式'
 	SubjectModel   field.String // 'memory,jetStream'
 	Status         field.Int8   // '状态
-	Condition      field.String // '条件'
+	ConditionValue field.String // '条件值'
 	MaxWorkers     field.Int32  // '最大工作节点数'
 	TimeoutSeconds field.Int32  // '超时秒数'
 	Description    field.String // '描述'
@@ -100,7 +100,7 @@ func (n *njAppJob) updateTableName(table string) *njAppJob {
 	n.Model = field.NewString(table, "model")
 	n.SubjectModel = field.NewString(table, "subject_model")
 	n.Status = field.NewInt8(table, "status")
-	n.Condition = field.NewString(table, "condition")
+	n.ConditionValue = field.NewString(table, "condition_value")
 	n.MaxWorkers = field.NewInt32(table, "max_workers")
 	n.TimeoutSeconds = field.NewInt32(table, "timeout_seconds")
 	n.Description = field.NewString(table, "description")
@@ -145,7 +145,7 @@ func (n *njAppJob) fillFieldMap() {
 	n.fieldMap["model"] = n.Model
 	n.fieldMap["subject_model"] = n.SubjectModel
 	n.fieldMap["status"] = n.Status
-	n.fieldMap["condition"] = n.Condition
+	n.fieldMap["condition_value"] = n.ConditionValue
 	n.fieldMap["max_workers"] = n.MaxWorkers
 	n.fieldMap["timeout_seconds"] = n.TimeoutSeconds
 	n.fieldMap["description"] = n.Description

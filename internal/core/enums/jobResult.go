@@ -19,6 +19,7 @@ type AppJobResultInfo struct {
 	Namespace      string    `json:"namespace"`
 	AppName        string    `json:"appName"`
 	JobName        string    `json:"jobName"`
+	ClientId       string    `json:"clientId"`
 }
 
 type JobResultStatusInfo struct {

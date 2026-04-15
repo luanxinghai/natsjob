@@ -35,8 +35,9 @@
                 <el-form-item label="定时" prop="cron">
                     <el-input v-model.trim="form.cron" autocomplete="off" maxlength="64" />
                 </el-form-item>
-                <el-form-item label="条件" prop="condition" v-if="form.category == 'standalone' && form.model == 'ultra'">
-                    <JobCondition v-model="form.condition" />
+                <el-form-item label="条件" prop="conditionValue"
+                    v-if="form.category == 'standalone' && form.model == 'ultra'">
+                    <JobCondition v-model="form.conditionValue" />
                 </el-form-item>
             </GridRow>
             <GridRow v-if="form.model != 'lite' && form.model != 'plus'">
@@ -105,7 +106,7 @@ const {
             cron: "@every 10s",
             maxWorkers: 1,
             timeoutSeconds: 10,
-            condition: "",
+            conditionValue: "",
             args: ""
         }
     }

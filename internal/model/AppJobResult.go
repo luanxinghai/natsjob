@@ -12,10 +12,11 @@ type NjAppJobResult struct {
 	JobName        string     `gorm:"size:64;not null;comment:'作业名称'"`
 	Category       string     `gorm:"size:64;not null;comment:'策略'"`
 	Model          string     `gorm:"size:64;not null;comment:'模式'"`
-	Status         string     `gorm:"size:64;comment:状态" json:"status"`
-	Reason         string     `gorm:"size:256;not null;comment:'结果说明'"`
-	MonitorStatus  string     `gorm:"size:64;comment:'监控状态'" json:"monitorStatus"`
-	MonitorPayload string     `gorm:"size:256;comment:'监控随路数据'" json:"monitorPayload"`
+	Status         string     `gorm:"size:64;comment:状态"`
+	Reason         string     `gorm:"size:1024;not null;comment:'结果说明'"`
+	ClientID       string     `gorm:"size:64;not null;comment:'客户端id'"`
+	MonitorStatus  string     `gorm:"size:64;comment:'监控状态'"`
+	MonitorPayload string     `gorm:"size:1024;comment:'监控随路数据'"`
 	TimeSpan       int64      `gorm:"comment:'耗时'"`
 	StartAt        *time.Time `gorm:"precision:6;comment:'开始时间'"`
 	EndAt          *time.Time `gorm:"precision:6;comment:'结束时间'"`

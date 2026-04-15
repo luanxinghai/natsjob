@@ -13,6 +13,7 @@ type RecJobResultEndMessage struct {
 	Reason         string `json:"reason"`
 	MonitorStatus  string `json:"monitorStatus"`
 	MonitorPayload string `json:"monitorPayload"`
+	ClientId       string `json:"clientId"`
 }
 
 type JobResultEndInfo struct {
@@ -24,6 +25,7 @@ type JobResultEndInfo struct {
 	Reason         string `json:"reason"`
 	MonitorStatus  string `json:"monitorStatus"`
 	MonitorPayload string `json:"monitorPayload"`
+	ClientId       string `json:"clientId"`
 }
 
 func GetJobResultEndInfo(value string) JobResultEndInfo {
@@ -56,8 +58,8 @@ func GetJobResultEndInfo(value string) JobResultEndInfo {
 	}
 
 	reason := msg.Reason
-	if len(reason) > 256 {
-		reason = reason[0:256]
+	if len(reason) > 1024 {
+		reason = reason[0:1024]
 	}
 
 	monitorStatus := msg.MonitorStatus
@@ -66,8 +68,8 @@ func GetJobResultEndInfo(value string) JobResultEndInfo {
 	}
 
 	monitorPayload := msg.MonitorPayload
-	if len(monitorPayload) > 256 {
-		monitorPayload = monitorPayload[0:256]
+	if len(monitorPayload) > 1024 {
+		monitorPayload = monitorPayload[0:1024]
 	}
 
 	return JobResultEndInfo{
@@ -79,6 +81,7 @@ func GetJobResultEndInfo(value string) JobResultEndInfo {
 		Reason:         reason,
 		MonitorStatus:  monitorStatus,
 		MonitorPayload: monitorPayload,
+		ClientId:       msg.ClientId,
 	}
 }
 

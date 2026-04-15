@@ -1,7 +1,7 @@
 <template>
     <TableView :data="table.data" :page="page" :search="useTableSearch">
         <template #search>
-            <el-form :inline="true" :model="searchForm" :rules="rules" ref="searchRef" label-width="120px">
+            <el-form :inline="true" :model="searchForm" :rules="rules" ref="searchRef" label-width="120px" @keyup.enter="useTableSearchFormSubmit">
                 <el-form-item label="状态" prop="status">
                     <el-input v-model.trim="searchForm.status" clearable style="width: 140px"></el-input>
                 </el-form-item>
@@ -22,11 +22,15 @@
         </template>
         <template #header>
             <RefreshIconBtn :onclick="useTableSearch" />
+            <el-divider direction="vertical" />
+            <n-button tertiary type="primary" round size="small">
+                {{ jobName }}
+            </n-button>
         </template>
         <template #column>
             <el-table-column type="index" width="50"></el-table-column>
             <el-table-column prop="id" label="编号" min-width="180"></el-table-column>
-            <el-table-column prop="status" label="状态" min-width="200" show-overflow-tooltip>
+            <el-table-column prop="status" label="状态" min-width="100" show-overflow-tooltip>
                 <template #default="{ row }">
                     <el-text v-if="row.status == 'success'" type="success">{{ row.status }}</el-text>
                     <el-text v-else-if="row.status == 'fail'" type="danger">{{ row.status }}</el-text>
@@ -36,10 +40,8 @@
             </el-table-column>
 
             <el-table-column prop="reason" label="说明" min-width="200" show-overflow-tooltip></el-table-column>
-            <el-table-column prop="monitorStatus" label="监控状态" min-width="200" show-overflow-tooltip></el-table-column>
-            <el-table-column prop="monitorPayload" label="监控随路数据" min-width="200"
-                show-overflow-tooltip></el-table-column>
-            <el-table-column prop="timeSpan" label="耗时(s)" min-width="100">
+
+            <el-table-column prop="timeSpan" label="耗时" min-width="120">
                 <template #default="{ row }">
                     {{ $tools.formatMs(row.timeSpan) }}
                 </template>
@@ -47,6 +49,11 @@
             <el-table-column prop="startAt" label="开始时间" min-width="180"></el-table-column>
             <el-table-column prop="endAt" label="结束时间" min-width="180"></el-table-column>
             <el-table-column prop="expiredAt" label="过期时间" min-width="180"></el-table-column>
+            <el-table-column prop="clientId" label="客户端ID" min-width="120" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="monitorStatus" label="监控状态" min-width="120" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="monitorPayload" label="监控随路数据" min-width="120"
+                show-overflow-tooltip></el-table-column>
+
             <el-table-column prop="category" label="分类" min-width="120">
                 <template #default="{ row }">
                     <JobCategoryLabel v-model="row.category" />
@@ -63,11 +70,14 @@
             <el-table-column prop="namespaceId" label="命名空间编号" min-width="180"></el-table-column>
             <el-table-column prop="createdAt" label="创建日期" min-width="180"></el-table-column>
             <el-table-column prop="updatedAt" label="更新日期" min-width="180"></el-table-column>
-            <el-table-column fixed="right" label="操作" width="60">
+            <el-table-column fixed="right" label="操作" width="100">
                 <template #default="{ row }">
-                    <GridRow :span="1">
+                    <GridRow :span="2">
                         <div @click="showSubList(row)">
                             <ViewSubIconBtn />
+                        </div>
+                        <div @click="showDetail(row)">
+                            <DetailIconBtn />
                         </div>
                     </GridRow>
                 </template>
@@ -75,11 +85,14 @@
         </template>
     </TableView>
     <JobSubResultList ref="subResultListRef" @load="useTableSearch" />
+    <JobResultDetail ref="resultDetailRef" />
 </template>
 
 <script setup name="JobResultList">
 const router = useRoute();
 const subResultListRef = ref();
+const resultDetailRef = ref();
+const jobName = ref(router.params.jobName)
 const {
     table,
     page,
@@ -109,6 +122,10 @@ onMounted(() => {
 
 const showSubList = (row) => {
     subResultListRef.value.subList(row.id)
+}
+
+const showDetail = (row) => {
+    resultDetailRef.value.open(row)
 }
 
 </script>

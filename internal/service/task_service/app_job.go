@@ -101,6 +101,7 @@ func UpdateJob(appJobResultInfo *enums.AppJobResultInfo) {
 			MonitorPayload: appJobResultInfo.MonitorPayload,
 			EndAt:          &entTime,
 			TimeSpan:       timeSpan,
+			ClientID:       appJobResultInfo.ClientId,
 		})
 
 	if err != nil {

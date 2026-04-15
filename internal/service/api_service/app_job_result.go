@@ -75,6 +75,7 @@ func AppJobResultList(c *gin.Context) {
 			Model:          v.Model,
 			Status:         v.Status,
 			Reason:         v.Reason,
+			ClientID:       v.ClientID,
 			MonitorStatus:  v.MonitorStatus,
 			MonitorPayload: v.MonitorPayload,
 			TimeSpan:       strutil.ToStr(v.TimeSpan),

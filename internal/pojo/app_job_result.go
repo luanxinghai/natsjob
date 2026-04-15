@@ -25,6 +25,7 @@ type AppJobResultVo struct {
 	Model          string `json:"model"`
 	Status         string `json:"status"`
 	Reason         string `json:"reason"`
+	ClientID       string `json:"clientId"`
 	MonitorStatus  string `json:"monitorStatus"`
 	MonitorPayload string `json:"monitorPayload"`
 	TimeSpan       string `json:"timeSpan"`

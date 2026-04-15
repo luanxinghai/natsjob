@@ -91,6 +91,7 @@ func JobResultSuccessFail(jobEndKey string, jobKeyKeyValue nats.KeyValue, jobRes
 		Reason:         jobResultEndInfo.Reason,
 		MonitorStatus:  jobResultEndInfo.MonitorStatus,
 		MonitorPayload: jobResultEndInfo.MonitorPayload,
+		ClientId:       jobResultEndInfo.ClientId,
 		CreateAt:       jobMessage.JobPubMessage.JobCreatedAt,
 		Namespace:      jobMessage.JobPubMessage.Namespace,
 		AppName:        jobMessage.JobPubMessage.AppName,
