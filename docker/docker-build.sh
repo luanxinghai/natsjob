@@ -27,3 +27,5 @@ VERSION=$(extract_version "$(basename ../libs/natsjob-*-linux-arm64)")
 VERSION=${VERSION#v}
 echo "Building image for version: ${VERSION}"
 docker build --platform linux/arm64 -t "luanxinghai/natsjob:${VERSION}-arm" .
+
+rm -f natsjob

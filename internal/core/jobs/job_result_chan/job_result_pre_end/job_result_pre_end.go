@@ -120,6 +120,7 @@ func successOrFail(task Task, jobPreEndKey string, jobResultEndInfo *job_result_
 		Reason:         jobResultEndInfo.Reason,
 		MonitorStatus:  jobResultEndInfo.MonitorStatus,
 		MonitorPayload: jobResultEndInfo.MonitorPayload,
+		ClientId:       jobResultEndInfo.ClientId,
 		CreateAt:       jobMessage.JobPubMessage.JobCreatedAt,
 		Namespace:      jobMessage.JobPubMessage.Namespace,
 		AppName:        jobMessage.JobPubMessage.AppName,

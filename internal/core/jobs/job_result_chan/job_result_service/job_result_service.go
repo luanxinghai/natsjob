@@ -72,6 +72,11 @@ func GetJobResultEndInfo(value string) JobResultEndInfo {
 		monitorPayload = monitorPayload[0:1024]
 	}
 
+	clientId := msg.ClientId
+	if len(clientId) > 64 {
+		clientId = clientId[0:64]
+	}
+
 	return JobResultEndInfo{
 		IsSuccess:      isSuccess(msg.Status),
 		IsSuccessNext:  isSuccessNext(msg.Status),
@@ -81,7 +86,7 @@ func GetJobResultEndInfo(value string) JobResultEndInfo {
 		Reason:         reason,
 		MonitorStatus:  monitorStatus,
 		MonitorPayload: monitorPayload,
-		ClientId:       msg.ClientId,
+		ClientId:       clientId,
 	}
 }
 
