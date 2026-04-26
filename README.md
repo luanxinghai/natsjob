@@ -302,6 +302,9 @@ natsjob 底层采用 `github.com/robfig/cron/v3` 库实现定时任务调度，*
 ## java (兼容各版本JDK)
 
 <https://github.com/luanxinghai/natsjob/tree/main/docs/examples>
+> stater目录是工程实例,可实现接口单机(NatsJobStandaloneHandler),广播(NatsJobBroadcastHandler),MAP(NatsJobMapHandler)
+
+> demo是工程示例和独立消费示例
 
 **消费模式说明**
 本文档中提供的所有示例均基于**临时消费模式**，该模式轻量、高效，能够满足绝大多数业务场景的需求。
@@ -322,7 +325,28 @@ natsjob 底层采用 `github.com/robfig/cron/v3` 库实现定时任务调度，*
   <version>最新版</version>
 </dependency>
 ```
+工程化接口示例
+```java
+@Slf4j
+@Component
+public class SingleHandler implements NatsJobStandaloneHandler {
 
+    @Override
+    public String jobName() {
+        return "owner";
+    }
+
+    @Override
+    public void process(NatsJobMessage jobMessage) {
+        //具体逻辑
+        success(jobMessage, "单机ok");
+        //fail(jobMessage, "单机失败");
+    }
+}
+```
+
+
+纯个人自定义demo示例
 ```java
  public static void main(String[] args) {
         String natsURL = "nats://127.0.0.1:4222";

@@ -36,11 +36,11 @@ export const setTheme = (app_color) => {
     // document.documentElement.style.setProperty(`--colorIcon`, app_color)
   }
 
-  localStorage.setItem("scrm-themeColor", app_color)
+  localStorage.setItem("natsjob-themeColor", app_color)
 }
 
 export const initTheme = () => {
-  const app_color = localStorage.getItem("scrm-themeColor")
+  const app_color = localStorage.getItem("natsjob-themeColor")
   if (app_color) {
     setTheme(app_color)
   }

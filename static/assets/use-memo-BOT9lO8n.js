@@ -1,1 +1,0 @@
-import{d as e,et as t,ft as n}from"./runtime-core.esm-bundler-fv2244ep.js";function r(r){let i=e(r),a=n(i.value);return t(i,e=>{a.value=e}),typeof r==`function`?a:{__v_isRef:!0,get value(){return a.value},set value(e){r.set(e)}}}export{r as t};

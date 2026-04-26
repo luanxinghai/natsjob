@@ -3,13 +3,20 @@
         <template #content>
             <div class="container">
                 <div>
-                    <el-form :inline="true" :model="searchForm" :rules="rules" ref="searchRef" label-width="120px" @keyup.enter="useTableSearchFormSubmit">
+                    <el-form :inline="true" :model="searchForm" :rules="rules" ref="searchRef" label-width="100px"
+                        @keyup.enter="useTableSearchFormSubmit">
                         <el-form-item label="状态" prop="status">
                             <el-input v-model.trim="searchForm.status" clearable style="width: 140px"></el-input>
                         </el-form-item>
                         <el-form-item label="说明" prop="reason">
                             <el-input v-model.trim="searchForm.reason" clearable style="width: 140px"></el-input>
                         </el-form-item>
+                        <!-- <el-form-item label="场景id" prop="sceneId">
+                            <el-input v-model.trim="searchForm.sceneId" clearable style="width: 140px"></el-input>
+                        </el-form-item> -->
+                        <!-- <el-form-item label="场景名称" prop="sceneName">
+                            <el-input v-model.trim="searchForm.sceneName" clearable style="width: 140px"></el-input>
+                        </el-form-item> -->
                         <el-form-item label="监控状态" prop="monitorStatus">
                             <el-input v-model.trim="searchForm.monitorStatus" clearable style="width: 140px"></el-input>
                         </el-form-item>

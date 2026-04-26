@@ -6,7 +6,8 @@
             </el-form-item>
             <el-form-item label="订阅主题">
                 <n-alert :bordered="false" :show-icon="false" style="width: 100%;" v-if="subjectValue != ''">
-                    {{ subjectValue }}
+                    <div v-if="subjectMapPreValue != ''">{{ subjectMapPreValue }}</div>
+                    <div>{{ subjectValue }}</div>
                 </n-alert>
             </el-form-item>
             <GridRow>
@@ -73,6 +74,7 @@
 <script setup name="AppEdit">
 import { nsId, nsName } from "@/hooks/namespace"
 import { isNullOrEmpty } from "@/utils/tools"
+const subjectMapPreValue = ref("")
 const subjectValue = ref("")
 const dialogFormVisible = ref(false);
 const emits = defineEmits(["load"]);
@@ -172,13 +174,27 @@ watch(form, (newVal, oldVal) => {
         } else {
             subjectValue.value = `natsjob.job.start.${nsName.value}.${jobName}.${form.name}`
         }
+
+        if (form.category == "map") {
+            subjectMapPreValue.value = `natsjob.job.pre-start.${nsName.value}.${jobName}.${form.name}`
+        } else {
+            subjectMapPreValue.value = ""
+        }
+
     } else if (form.subjectModel == "memory" && !isNullOrEmpty(form.category) && !isNullOrEmpty(form.model) && !isNullOrEmpty(form.name)) {
         if (form.model == "ultra") {
             subjectValue.value = `natsjob-void.job.client-start.${nsName.value}.${jobName}.${form.name}.客户端注册ID`
         } else {
             subjectValue.value = `natsjob-void.job.start.${nsName.value}.${jobName}.${form.name}`
         }
+
+        if (form.category == "map") {
+            subjectMapPreValue.value = `natsjob-void.job.pre-start.${nsName.value}.${jobName}.${form.name}`
+        } else {
+            subjectMapPreValue.value = ""
+        }
     } else {
+        subjectMapPreValue.value = ""
         subjectValue.value = ""
     }
 })

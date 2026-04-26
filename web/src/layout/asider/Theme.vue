@@ -33,7 +33,7 @@ const colors = reactive({
   ],
 })
 onMounted(() => {
-  const app_color = localStorage.getItem('scrm-themeColor') ?? colors.primary
+  const app_color = localStorage.getItem('natsjob-themeColor') ?? colors.primary
   colors.primary = app_color
   setTheme(app_color)
 })
