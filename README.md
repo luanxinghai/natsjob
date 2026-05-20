@@ -1,16 +1,16 @@
 [![License][License-Image]][License-Url] [![Release][Release-Image]][Release-Url] [![Docker Downloads][Docker-Image]][Docker-Url]
 
-[License-Url]: https://www.apache.org/licenses/LICENSE-2.0 
+[License-Url]: https://www.apache.org/licenses/LICENSE-2.0
 
-[License-Image]: https://img.shields.io/badge/License-Apache2-blue.svg 
+[License-Image]: https://img.shields.io/badge/License-Apache2-blue.svg
 
-[Docker-Image]: https://img.shields.io/docker/pulls/luanxinghai/natsjob?style=flat-square&logo=docker 
+[Docker-Image]: https://img.shields.io/docker/pulls/luanxinghai/natsjob?style=flat-square&logo=docker
 
-[Docker-Url]: https://hub.docker.com/r/luanxinghai/natsjob 
+[Docker-Url]: https://hub.docker.com/r/luanxinghai/natsjob
 
-[Release-Url]: https://github.com/luanxinghai/natsjob/releases/latest 
+[Release-Url]: https://github.com/luanxinghai/natsjob/releases/latest
 
-[Release-Image]: https://img.shields.io/github/v/release/luanxinghai/natsjob 
+[Release-Image]: https://img.shields.io/github/v/release/luanxinghai/natsjob
 
 # NatsJob
 
@@ -47,7 +47,7 @@ natsjob 围绕“零侵入、云原生、轻量级、高可用”核心特性构
 - **可视化管理**：内置 Web 管理界面，支持定时任务的可视化配置：单机、广播、MAP。命名空间互相独立，划分不同场景区域，例如：dev，uat，test等。
 
 #### 架构图
-
+**本地架构图**
 ```mermaid
 flowchart TD
     %% 定义节点样式
@@ -76,6 +76,39 @@ flowchart TD
     B <-- "连接 (指标采集)" --> F
     B <-- "连接 (自定义)" --> G
 ```
+**异地架构图**
+
+```mermaid
+flowchart TD
+    %% 定义节点样式
+    classDef cluster fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+    classDef nats fill:#fff3e0,stroke:#e65100,stroke-width:2px;
+    classDef client fill:#f3e5f5,stroke:#4a148c,stroke-width:1px,stroke-dasharray: 5 5;
+
+    %% 节点定义
+    A["NatsJob定时任务集群"]:::cluster
+    B["NATS 集群 A<br/>(本地核心消息总线)"]:::nats
+    H["NATS 集群 B<br/>(异地核心消息总线)"]:::nats
+    
+    subgraph Clients [异地客户端层]
+        direction LR
+        C["服务客户端"]:::client
+        D["组模式客户端"]:::client
+        E["Agent脚本客户端"]:::client
+        F["监控客户端"]:::client
+        G["自定义客户端"]:::client
+    end
+
+    %% 连接关系
+    A -- "1. 发布消息" --> B
+    B -- "2. 跨地域同步<br/>(Leafnode/Gateway)" --> H
+    H -- "3. 订阅消费" --> C
+    H -- "3. 订阅消费" --> D
+    H -- "3. 订阅消费" --> E
+    H -- "3. 订阅消费" --> F
+    H -- "3. 订阅消费" --> G
+```
+
 
 ## NATS
 
@@ -175,6 +208,14 @@ docker run -idt --restart=always \
 -e "NATSJOB_DB_URL=root:natsjob123@tcp(127.0.0.1:3306)/natsjob?charset=utf8mb4&parseTime=True&loc=Local" \
 --name natsjob luanxinghai/natsjob:latest
 
+# 精简docker部署 (无需映射任何内容,适配k8s depoy或stateful动态编排)
+docker run -idt --restart=always \
+-p 7788:7788 \
+-e TZ=Asia/Shanghai \
+-e NATSJOB_NATS_URL=nats://127.0.0.1:4222 \
+-e NATSJOB_DB_TYPE=mysql \
+-e "NATSJOB_DB_URL=root:natsjob123@tcp(127.0.0.1:3306)/natsjob?charset=utf8mb4&parseTime=True&loc=Local" \
+--name natsjob luanxinghai/natsjob:latest
 
 
 ```
@@ -257,11 +298,11 @@ natsjob 底层采用 `github.com/robfig/cron/v3` 库实现定时任务调度，*
 
 ## 1. 测试环境
 
-| 组件        | 配置说明                                                |
-| --------- | --------------------------------------------------- |
-| 操作系统      | Ubuntu 22.04.3（笔记本 VMware 虚拟机）CPU：4核 内存：8G  硬盘：200G |
-| NATS      | 默认部署（无特殊配置）                                         |
-| natsjob   | 默认部署（无特殊配置）                                         |
+| 组件      | 配置说明                                                     |
+| --------- | ------------------------------------------------------------ |
+| 操作系统  | Ubuntu 22.04.3（笔记本 VMware 虚拟机）;CPU：4核; 内存：8G ; 硬盘：200G |
+| NATS      | 默认部署（无特殊配置）                                       |
+| natsjob   | 默认部署（无特殊配置）                                       |
 | MySQL 8.0 | 数据库连接池设置：2000                                       |
 
 ## 2. 测试场景与结果
@@ -390,7 +431,7 @@ public class SingleHandler implements NatsJobStandaloneHandler {
 
 ## 其他语言
 
-python go .net node等可用大模型智能体将java示例转换即可,all in ai!
+python go .net node等可用大模型智能体将java示例转换即可,ALL IN AI!
 
 # 打包部署
 
