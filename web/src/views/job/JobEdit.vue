@@ -107,7 +107,7 @@ const {
             status: 0,
             cron: "@every 10s",
             maxWorkers: 1,
-            timeoutSeconds: 10,
+            timeoutSeconds: 60,
             conditionValue: "",
             args: ""
         }
