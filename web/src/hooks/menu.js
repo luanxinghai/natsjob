@@ -27,6 +27,14 @@ export const loadMenu = async () => {
       icon: "ri-typhoon-line",
       menuName: "服务任务",
     },
+    {
+      path: "/client-reg-list",
+      name: "ClientRegList",
+      url: "ClientRegList",
+      component: "ClientRegList",
+      icon: "ri-windows-line",
+      menuName: "客户端注册",
+    },
   ]
   let myMenu = setMenu(menuSelf)
   let menuRouter = flatAsyncRoutes(myMenu)
