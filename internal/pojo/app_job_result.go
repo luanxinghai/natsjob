@@ -13,6 +13,17 @@ type AppJobResultQuery struct {
 	MonitorPayload string `json:"monitorPayload"`
 }
 
+type AppJobResultCancelReq struct {
+	ID string `json:"id" binding:"required"`
+}
+
+type AppJobResultStatVo struct {
+	Success int64 `json:"success"`
+	Fail    int64 `json:"fail"`
+	Expired int64 `json:"expired"`
+	Cancel  int64 `json:"cancel"`
+}
+
 type AppJobResultVo struct {
 	ID             string `json:"id"`
 	NamespaceId    string `json:"namespaceId"`

@@ -18,6 +18,12 @@ set buildTime=%datetime:~0,12%
 set ldflags_param=-s -w -X main.Version=%version% -X main.BuildTime=%buildTime%
 
 REM Compile for different platforms
+
+echo Compiling darwin/amd64...
+set GOOS=darwin
+set GOARCH=amd64
+go build -ldflags "%ldflags_param%" -o "%libs_path%\natsjob-%version%-darwin-amd64
+
 echo Compiling darwin/arm64...
 set GOOS=darwin
 set GOARCH=arm64

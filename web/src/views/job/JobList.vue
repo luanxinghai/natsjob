@@ -1,7 +1,8 @@
 <template>
     <TableView :data="table.data" :page="page" :search="useTableSearch">
         <template #search>
-            <el-form :inline="true" :model="searchForm" :rules="rules" ref="searchRef" label-width="80px" @keyup.enter="useTableSearchFormSubmit">
+            <el-form :inline="true" :model="searchForm" :rules="rules" ref="searchRef" label-width="80px"
+                @keyup.enter="useTableSearchFormSubmit">
                 <el-form-item label="服务名" prop="name">
                     <el-input v-model.trim="searchForm.name" clearable style="width: 140px"></el-input>
                 </el-form-item>
@@ -74,7 +75,7 @@
                     <JobConditionLabel v-model="row.conditionValue" />
                 </template>
             </el-table-column>
-            <el-table-column prop="args" label="参数" min-width="120" show-overflow-tooltip></el-table-column>``
+            <el-table-column prop="args" label="参数" min-width="120" show-overflow-tooltip></el-table-column>
             <!-- <el-table-column prop="startAt" label="开始时间" min-width="200"></el-table-column>
             <el-table-column prop="endAt" label="结束时间" min-width="200"></el-table-column> -->
 

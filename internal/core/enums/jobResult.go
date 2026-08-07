@@ -28,6 +28,7 @@ type JobResultStatusInfo struct {
 	SuccessNext string `json:"successNext"`
 	Fail        string `json:"fail"`
 	Expired     string `json:"expired"`
+	Cancel      string `json:"cancel"`
 }
 
 type JobSceneInfo struct {
@@ -41,6 +42,7 @@ var JOB_RESULT_STATUS = JobResultStatusInfo{
 	SuccessNext: "success:next",
 	Fail:        "fail",
 	Expired:     "expired",
+	Cancel:      "cancel",
 }
 
 // 系统场景信息

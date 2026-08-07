@@ -1,3 +1,7 @@
+allowBuilds:
+  '@code-inspector/core': false
+  '@parcel/watcher': true
+  node-pty: false
 ignoredBuiltDependencies:
   - esbuild
 minimumReleaseAgeExclude:
@@ -5,3 +9,7 @@ minimumReleaseAgeExclude:
   - element-plus@2.14.1
   - eslint@10.4.1
   - lint-staged@17.0.6
+  - lint-staged@17.1.1
+  - postcss@8.5.22
+  - element-plus@2.14.4
+  - vite@8.2.1

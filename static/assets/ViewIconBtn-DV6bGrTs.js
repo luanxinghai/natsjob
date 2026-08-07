@@ -1,1 +1,0 @@
-import{R as e,p as t}from"./runtime-core.esm-bundler-BA8Ga4iZ.js";import{t as n}from"./_plugin-vue_export-helper-BDNMzG2s.js";import{t as r}from"./IconRemixTemp-tjxS3I4C.js";var i={};function a(n,i){let a=r;return e(),t(a,{name:`ri-connector-line`})}var o=n(i,[[`render`,a]]);export{o as t};

@@ -167,6 +167,7 @@ const responseCode = (resolve, reject, data) => {
   }
   console.error("error", data)
   errorNotify(data.message ?? "请求异常")
+  reject(data)
 }
 
 export function downloadGet(

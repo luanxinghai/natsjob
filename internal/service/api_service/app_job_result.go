@@ -1,6 +1,8 @@
 package api_service
 
 import (
+	"natsjob/internal/core/boot"
+	"natsjob/internal/core/enums"
 	"natsjob/internal/database"
 	"natsjob/internal/pojo"
 	"natsjob/internal/service/valid"
@@ -93,4 +95,74 @@ func AppJobResultList(c *gin.Context) {
 		Current: queryDto.GetCurrent(),
 		Size:    queryDto.GetSize(),
 	})
+}
+
+// AppJobResultCancel 取消运行中的任务
+func AppJobResultCancel(c *gin.Context) {
+	var req pojo.AppJobResultCancelReq
+	if err := c.ShouldBind(&req); err != nil {
+		resp.Error(c, err.Error())
+		return
+	}
+	id, err := strutil.ToInt64(req.ID)
+	if err != nil {
+		resp.Error(c, err.Error())
+		return
+	}
+	if err := boot.CancelJob(id); err != nil {
+		resp.Error(c, err.Error())
+		return
+	}
+	resp.OK(c, true)
+}
+
+// AppJobResultStat 统计当前任务各状态数量(success/fail/expired/cancel)
+func AppJobResultStat(c *gin.Context) {
+	queryDto := pojo.AppJobResultQuery{
+		Pagination: page.Pagination{
+			Current: 1,
+			Size:    10,
+		},
+	}
+	if err := c.ShouldBind(&queryDto); err != nil {
+		if validationErrors, ok := err.(validator.ValidationErrors); ok {
+			errorMsg := valid.ValidationError(validationErrors, queryDto)
+			resp.Error(c, errorMsg)
+			return
+		}
+		resp.Error(c, err.Error())
+		return
+	}
+	q := database.GetQuery()
+
+	jobId, err := strutil.ToInt64(queryDto.JobId)
+	if err != nil {
+		resp.Error(c, err.Error())
+		return
+	}
+
+	countByStatus := func(status string) int64 {
+		query := q.NjAppJobResult.WithContext(c).
+			Where(q.NjAppJobResult.JobId.Eq(jobId)).
+			Where(q.NjAppJobResult.Status.Eq(status))
+		if queryDto.Reason != "" {
+			query = query.Where(q.NjAppJobResult.Reason.Like("%" + queryDto.Reason + "%"))
+		}
+		if queryDto.MonitorStatus != "" {
+			query = query.Where(q.NjAppJobResult.MonitorStatus.Eq(queryDto.MonitorStatus))
+		}
+		if queryDto.MonitorPayload != "" {
+			query = query.Where(q.NjAppJobResult.MonitorPayload.Like("%" + queryDto.MonitorPayload + "%"))
+		}
+		count, _ := query.Count()
+		return count
+	}
+
+	stat := pojo.AppJobResultStatVo{
+		Success: countByStatus(enums.JOB_RESULT_STATUS.Success),
+		Fail:    countByStatus(enums.JOB_RESULT_STATUS.Fail),
+		Expired: countByStatus(enums.JOB_RESULT_STATUS.Expired),
+		Cancel:  countByStatus(enums.JOB_RESULT_STATUS.Cancel),
+	}
+	resp.OK(c, stat)
 }

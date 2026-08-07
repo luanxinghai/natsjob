@@ -1,0 +1,1 @@
+import{a as e}from"./tools-CqKBM382.js";import{h as t}from"./useApi-CROJJdhE-CxvaCqrX.js";var n={TOKEN:`token`},r=e=>{sessionStorage.setItem(n.TOKEN,e.token)},i=e=>{},a=(e=!1)=>{o()},o=()=>{s(),setTimeout(()=>{window.location.href=window.location.origin},1e3)},s=()=>{e(n.TOKEN);try{t().replace({path:`/natsjob/login`})}catch(e){console.error(e)}};export{r as n,a as r,i as t};

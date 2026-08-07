@@ -21,7 +21,7 @@
 
 <script setup>
 
-import { useActiveRoutePath } from '@/route/routeWatch.js'
+import { useActiveRoutePath } from '@/router/routeWatch.js'
 import { scrmConfigStore } from '@/stores/scrmConfig'
 const { activeRoutePath, activeRouteParentPath } = useActiveRoutePath()
 const scrmConf = scrmConfigStore()

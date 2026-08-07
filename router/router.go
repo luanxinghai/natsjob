@@ -50,6 +50,8 @@ func InitRouter() *gin.Engine {
 		biz.POST("app-job/status-disable", api_service.AppJobStatusDisable)
 
 		biz.POST("app-job-result/list", api_service.AppJobResultList)
+		biz.POST("app-job-result/cancel", api_service.AppJobResultCancel)
+		biz.POST("app-job-result/stat", api_service.AppJobResultStat)
 		biz.POST("app-job-sub-result/list", api_service.AppJobSubResultList)
 
 	}
