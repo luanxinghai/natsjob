@@ -21,3 +21,4 @@ libs
 conf
 /docker/amd/natsjob
 /docker/arm/natsjob
+/docker/natsjob
