@@ -1,4 +1,4 @@
-import { defineConfig } from "vite"
+import { defineConfig, lazyPlugins } from "vite-plus";
 import vue from "@vitejs/plugin-vue"
 import path from "path"
 import AutoImport from "unplugin-auto-import/vite"
@@ -14,6 +14,41 @@ import VueSetupExtend from "vite-plugin-vue-setup-extend"
 import vueJsx from "@vitejs/plugin-vue-jsx"
 
 export default defineConfig({
+  // Vite+ 格式检查配置
+  fmt: {
+    printWidth: 130,
+    tabWidth: 2,
+    useTabs: true,
+    semi: false,
+    singleQuote: false,
+    quoteProps: "as-needed",
+    bracketSpacing: true,
+    trailingComma: "none",
+    jsxSingleQuote: false,
+    arrowParens: "always",
+    proseWrap: "preserve",
+    htmlWhitespaceSensitivity: "css",
+    vueIndentScriptAndStyle: false,
+    sortPackageJson: false,
+    ignorePatterns: [
+      "/dist/*",
+      ".local",
+      ".output.js",
+      "/node_modules/**",
+      "**/*.svg",
+      "**/*.sh",
+      "/public/*",
+      "src/components.d.ts",
+      "src/auto-imports.d.ts",
+    ],
+  },
+  // Vite+ lint（Oxlint）配置
+  lint: {
+    jsPlugins: [{ name: "vite-plus", specifier: "vite-plus/oxlint-plugin" }],
+    rules: { "vite-plus/prefer-vite-plus-imports": "off" },
+    options: { typeAware: true, typeCheck: true },
+    ignorePatterns: ["src/components.d.ts", "src/auto-imports.d.ts"],
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
@@ -43,7 +78,7 @@ export default defineConfig({
     },
   },
 
-  plugins: [
+  plugins: lazyPlugins(() => [
     vue(),
     vueJsx(),
     AutoImport({
@@ -70,7 +105,7 @@ export default defineConfig({
       extensions: ["jpg", "jpeg", "png", "svg", "webp"],
     }),
     VueSetupExtend(),
-  ],
+  ]),
   // publicDir: "",
   base: "./",
   server: {

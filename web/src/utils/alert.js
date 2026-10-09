@@ -1,4 +1,7 @@
-import { ElMessage, ElNotification } from "element-plus"
+import { ElMessage, ElNotification, ElMessageBox } from "element-plus"
+import "element-plus/es/components/message/style/css"
+import "element-plus/es/components/notification/style/css"
+import "element-plus/es/components/message-box/style/css"
 
 export const $success = (msg) => {
 	ElMessage({
@@ -75,5 +78,15 @@ export const $ninfo = (msg, title = "") => {
 		message: msg,
 		type: "info",
 		plain: true
+	})
+}
+
+// 命令式确认弹窗（取消/删除等二次确认），样式统一由本模块引入的 message-box css 提供
+export const $confirm = (message, title = "提示", options = {}) => {
+	return ElMessageBox.confirm(message, title, {
+		confirmButtonText: "确定",
+		cancelButtonText: "取消",
+		type: "warning",
+		...options,
 	})
 }

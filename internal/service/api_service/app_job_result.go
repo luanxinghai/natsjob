@@ -159,6 +159,7 @@ func AppJobResultStat(c *gin.Context) {
 	}
 
 	stat := pojo.AppJobResultStatVo{
+		Create:  countByStatus(enums.JOB_RESULT_STATUS.Create),
 		Success: countByStatus(enums.JOB_RESULT_STATUS.Success),
 		Fail:    countByStatus(enums.JOB_RESULT_STATUS.Fail),
 		Expired: countByStatus(enums.JOB_RESULT_STATUS.Expired),

@@ -18,6 +18,7 @@ type AppJobResultCancelReq struct {
 }
 
 type AppJobResultStatVo struct {
+	Create  int64 `json:"create"`
 	Success int64 `json:"success"`
 	Fail    int64 `json:"fail"`
 	Expired int64 `json:"expired"`

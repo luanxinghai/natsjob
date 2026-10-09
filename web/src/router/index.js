@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router"
-import { ElNotification } from "element-plus"
+import { $nerror } from "@/utils/alert"
 import NProgress from "nprogress"
 import "nprogress/nprogress.css"
 import routes from "./route"
@@ -52,10 +52,7 @@ router.afterEach((to, from) => {
 
 router.onError((error) => {
   NProgress.done()
-  ElNotification.error({
-    title: "route error",
-    message: error.message,
-  })
+  $nerror(error.message, "route error")
 })
 
 export default router

@@ -42,14 +42,24 @@
                 </el-form-item>
             </GridRow>
             <GridRow v-if="form.model != 'lite' && form.model != 'plus'">
-                <el-form-item label="最大并发" prop="maxWorkers">
+                <el-form-item label="最大并发数" prop="maxWorkers">
                     <el-input-number v-model="form.maxWorkers" :min="1" :max="10000" />
                 </el-form-item>
                 <el-form-item label="超时时间(秒)" prop="timeoutSeconds">
-                    <el-input-number v-model="form.timeoutSeconds" :min="1" :max="86400" />
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <el-input-number v-model="form.timeoutSeconds" :min="1" :max="86400" />
+                        <el-tooltip effect="dark" placement="top">
+                            <template #content>
+                                最大并发数：同时可并行执行的任务数量。例如每 10 秒下发一次、超时 2 分钟——若上一轮任务还没结束：并发数 = 1 则不下发下一轮，≥ 2 才会继续下发。<br />
+                                超时时间(秒)：单个任务的最长执行时间。下发后若客户端一直不返回结果，超过该时间服务端自动按「超时结束」关闭任务并释放名额。<br />
+                                以上两项仅「基础 / 专业 / 客户端」模式生效（轻量 为无脑下发，不限制并发与超时）。
+                            </template>
+                            <i class="ri-question-line ri-sm" style="color: var(--el-color-primary); margin-left: 4px; cursor: pointer;"> </i>
+                        </el-tooltip>
+                    </div>
                 </el-form-item>
             </GridRow>
-            <el-form-item label="参数" prop="args">
+            <el-form-item label="自定义参数" prop="args">
                 <el-input type="textarea" v-model.trim="form.args" autocomplete="off" maxlength="1000"
                     show-word-limit />
             </el-form-item>

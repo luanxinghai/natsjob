@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ElNotification } from "element-plus"
+import { $nerror } from "@/utils/alert"
 import NProgress from "nprogress"
 import "nprogress/nprogress.css"
 import { converToUrl } from "@/utils/tools"
@@ -7,11 +7,7 @@ import { converToUrl } from "@/utils/tools"
 import { setLogout, setLogoutClearCache } from "@/app/app"
 
 const errorNotify = (error) => {
-  ElNotification({
-    title: "请求失败",
-    message: error,
-    type: "error",
-  })
+  $nerror(error, "请求失败")
 }
 
 const httpService = axios.create({
@@ -35,7 +31,7 @@ const errorHandler = (error) => {
         error.message = "拒绝访问"
         break
       case 404:
-        error.message = "请求错误,未找到该资源"
+        error.message = "请求404错误,未找到该资源"
         break
       case 405:
         error.message = "请求方法未允许"
@@ -69,7 +65,7 @@ const errorHandler = (error) => {
   }
 
   let errorMessage = error.message
-  if (error && error.request.response) {
+  if (error) {
     if (error.request.responseType === "blob") {
       let reader = new FileReader()
       reader.readAsText(error.request.response)
@@ -81,7 +77,8 @@ const errorHandler = (error) => {
       }
     } else {
       let errorMsg = error.request.response
-      errorMessage = parseErrorMessage(error, errorMsg)
+      errorMessage =
+        parseErrorMessage(error, errorMsg) ?? errorMessage ?? "未知异常"
       errorNotify(errorMessage)
     }
   }

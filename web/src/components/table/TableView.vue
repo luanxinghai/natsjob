@@ -1,26 +1,21 @@
 <template>
   <div class="table-box r-main">
     <div class="table-search" :class="collapse ? 'r-search' : 'r-search-collapse'" v-if="$slots.search">
-      <n-collapse :default-expanded-names="['1']" style="position: relative;top:-10px" v-if="collapse">
+      <n-collapse :default-expanded-names="['1']" style="position: relative;top:-10px" v-if="collapse"
+        @item-header-click="handleItemHeaderClick">
         <template #arrow>
           <i class="ri-arrow-down-double-fill"></i>
         </template>
         <n-collapse-item title="" name="1">
+          <template #header>
+            <span class="search-area__label">{{ itemExpanded ? '折叠' : '展开' }}检索</span>
+          </template>
           <slot name="search" />
         </n-collapse-item>
       </n-collapse>
       <span v-else>
         <slot name="search" />
       </span>
-      <!-- <el-button round circle text bg @click="collapse = !collapse" size="small">
-        <i v-show="collapse" class="ri-arrow-down-double-fill collapse"></i>
-        <i v-show="!collapse" class="ri-arrow-up-double-fill collapse"></i>
-      </el-button>
-      <el-collapse-transition>
-        <span v-show="collapse">
-          <slot name="search" />
-        </span>
-      </el-collapse-transition> -->
 
     </div>
     <div class="table-header r-header" v-if="$slots.header">
@@ -51,8 +46,7 @@
 <script setup>
 const attrs = useAttrs()
 const slots = useSlots()
-
-// const collapse = ref(true)
+const itemExpanded = ref(true)
 
 const props = defineProps({
   search: {
@@ -65,7 +59,7 @@ const props = defineProps({
       current: 1,
       size: 10,
       total: 0,
-      pageSizes: [10, 50, 100, 200],
+      pageSizes: [10, 50, 100, 200, 300, 500],
     },
   },
   pagination: {
@@ -86,6 +80,10 @@ const handleCurrentChange = (val) => {
 const handleSizeChange = (val) => {
   props.page.size = val
   props.search()
+}
+
+const handleItemHeaderClick = ({ name, expanded }) => {
+  itemExpanded.value = expanded
 }
 </script>
 
@@ -127,5 +125,10 @@ const handleSizeChange = (val) => {
 
 .collapse {
   cursor: pointer;
+}
+
+.search-area__label {
+  font-size: 12px;
+  color: #999;
 }
 </style>

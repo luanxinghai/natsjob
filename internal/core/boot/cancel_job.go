@@ -10,6 +10,7 @@ import (
 	"natsjob/internal/core/jobs/job_result_chan/job_result_service"
 	"natsjob/internal/core/topic"
 	"natsjob/internal/database"
+	"natsjob/internal/service/task_service"
 	"natsjob/logger"
 
 	"go.uber.org/zap"
@@ -48,9 +49,16 @@ func CancelJob(id int64) error {
 
 	// 取得缓存中的结果结束key(可能是 pre-end 或 end)
 	jobEndKey := cache.Get(jobKey)
-	if jobEndKey == "" {
-		// 缓存已失效,尝试直接构造 end key
-		jobEndKey = topic.JobEndKey(jobTask, id)
+
+	// 本地缓存未命中,或 KV 后端未就绪(如服务刚重启、未启用缓存)时,
+	// 直接更新数据库标记取消,跳过 KV 清理链路,避免 jobKeyKeyValue/jobResultsKeyValue 为 nil 时空指针
+	if jobEndKey == "" || jobKeyKeyValue == nil || jobResultsKeyValue == nil {
+		task_service.UpdateJob(&enums.AppJobResultInfo{
+			ID:     id,
+			Status: enums.JOB_RESULT_STATUS.Cancel,
+			Reason: "任务已取消",
+		})
+		return nil
 	}
 
 	// 清理缓存,避免后续过期触发再次处理覆盖状态

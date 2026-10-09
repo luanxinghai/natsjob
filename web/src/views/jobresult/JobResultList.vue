@@ -4,7 +4,10 @@
             <el-form :inline="true" :model="searchForm" :rules="rules" ref="searchRef" label-width="120px"
                 @keyup.enter="useTableSearchFormSubmit">
                 <el-form-item label="状态" prop="status">
-                    <el-input v-model.trim="searchForm.status" clearable style="width: 140px"></el-input>
+                    <el-select v-model="searchForm.status" clearable placeholder="全部状态" style="width: 140px">
+                        <el-option v-for="opt in statusOptions" :key="opt.value" :label="opt.label"
+                            :value="opt.value" />
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="说明" prop="reason">
                     <el-input v-model.trim="searchForm.reason" clearable style="width: 140px"></el-input>
@@ -30,6 +33,7 @@
             <el-divider direction="vertical" />
             <div class="stat-panel">
                 <div class="result-stat">
+                    <span class="stat-item stat-create">运行中 {{ stat.create }}</span>
                     <span class="stat-item stat-success">成功 {{ stat.success }}</span>
                     <span class="stat-item stat-fail">失败 {{ stat.fail }}</span>
                     <span class="stat-item stat-expired">过期 {{ stat.expired }}</span>
@@ -110,9 +114,8 @@
 </template>
 
 <script setup name="JobResultList">
-import { ElMessageBox } from "element-plus"
 import { post } from "@/utils/fetch"
-import { $success } from "@/utils/alert"
+import { $success, $confirm } from "@/utils/alert"
 
 const router = useRoute();
 const subResultListRef = ref();
@@ -142,8 +145,18 @@ const {
     },
 });
 
+// 状态下拉快捷选项
+const statusOptions = [
+    { label: "运行中", value: "create" },
+    { label: "成功", value: "success" },
+    { label: "失败", value: "fail" },
+    { label: "过期", value: "expired" },
+    { label: "取消", value: "cancel" },
+]
+
 // 各状态统计
 const stat = reactive({
+    create: 0,
     success: 0,
     fail: 0,
     expired: 0,
@@ -159,6 +172,7 @@ const loadStat = async () => {
             monitorPayload: searchForm.monitorPayload,
         })
         if (res) {
+            stat.create = res.create ?? 0
             stat.success = res.success ?? 0
             stat.fail = res.fail ?? 0
             stat.expired = res.expired ?? 0
@@ -184,7 +198,7 @@ const showDetail = (row) => {
 
 // 取消运行中的任务
 const cancelTask = (row) => {
-    ElMessageBox.confirm(
+    $confirm(
         `确认取消任务「${row.jobName}」(编号 ${row.id})？取消后任务状态将标记为 cancel。`,
         "取消任务",
         {
@@ -229,6 +243,11 @@ const cancelTask = (row) => {
         border-radius: 12px;
         line-height: 20px;
         white-space: nowrap;
+    }
+
+    .stat-create {
+        color: #409eff;
+        background: #ecf5ff;
     }
 
     .stat-success {

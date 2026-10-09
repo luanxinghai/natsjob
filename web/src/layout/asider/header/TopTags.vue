@@ -424,22 +424,18 @@ const tagDrop = () => {
 // ─── 变量 ────────────────────────────────────────────────
 $bg: #FFFFFF;
 $text-main: #303133;
-$text-muted: #606266;
 $text-light: #909399;
-$bg-tag: #F5F7FA;
-$border: #E4E7ED;
-$shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 $radius: 6px;
 $transition: 150ms ease;
 
-// ─── 整体标签栏 ──────────────────────────────────────────
+// ─── 整体标签栏（亮色白色系：白栏 + 透明显示 / 浅灰悬浮 / 浅蓝主题选中） ───
 .scrm-tags {
   display: flex;
   align-items: center;
   height: 36px;
-  background: $bg;
-  border-bottom: 1px solid $border;
-  box-shadow: $shadow;
+  padding: 0 6px;
+  background: #ffffff;
+  border-bottom: 1px solid #eef0f3;
   user-select: none;
 
   // 滚动按钮
@@ -448,18 +444,18 @@ $transition: 150ms ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     border-radius: $radius;
     cursor: pointer;
-    color: $text-light;
+    color: #9ca3af;
     background: transparent;
     transition: background $transition, color $transition;
     flex-shrink: 0;
 
     &:hover {
-      background: var(--el-color-primary-light-9);
-      color: var(--el-color-primary);
+      background: #f5f6f8;
+      color: #1f2937;
     }
   }
 
@@ -467,6 +463,7 @@ $transition: 150ms ease;
   ul {
     display: flex;
     align-items: center;
+    gap: 1px;
     list-style: none;
     margin: 0;
     padding: 0 4px;
@@ -478,18 +475,39 @@ $transition: 150ms ease;
     }
   }
 
-  // 单个标签
+  // 单个标签（未选中：无底无框，标签间极细短竖线分隔，干净克制）
   li {
+    position: relative;
     display: flex;
     align-items: center;
     flex-shrink: 0;
     height: 28px;
-    margin: 0 3px;
-    border-radius: $radius;
-    background: $bg-tag;
+    border-radius: 8px;
+    background: transparent;
     border: 1px solid transparent;
     cursor: pointer;
     transition: background $transition, border-color $transition, color $transition;
+
+    // 标签之间的细分隔竖线（位于间隔中央，短竖线更精致）
+    &+&::before {
+      content: '';
+      position: absolute;
+      left: -1px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 14px;
+      background: #e8eaed;
+      transition: opacity $transition;
+    }
+
+    // 悬浮/选中的标签及其相邻标签：隐藏分隔竖线，避免穿过色块
+    &:hover::before,
+    &.active::before,
+    &:hover+&::before,
+    &.active+&::before {
+      opacity: 0;
+    }
 
     a {
       display: flex;
@@ -497,40 +515,38 @@ $transition: 150ms ease;
       gap: 6px;
       padding: 0 12px;
       text-decoration: none;
-      color: $text-muted;
+      color: #6b7280;
       font-size: 13px;
       line-height: 1;
       white-space: nowrap;
+
+      // 左侧圆点（全局 app.scss 的 a::before）：缩小与文字间距
+      &::before {
+        margin-right: 4px;
+      }
     }
 
+    // 悬浮：极浅灰，边界轻微加深
     &:hover {
-      background: var(--el-color-primary-light-9);
-      border-color: var(--el-color-primary-light-5);
-      color: var(--el-color-primary);
+      background: #f7f8fa;
+      border-color: #e8eaed;
+
+      a {
+        color: #1f2937;
+      }
+    }
+
+    // 选中：柔和主题蓝底 + 淡蓝边框 + 主题色字（无下划线），圆点同色
+    &.active {
+      background: var(--el-color-primary-light-8);
+      border-color: var(--el-color-primary-light-6);
 
       a {
         color: var(--el-color-primary);
-      }
-    }
-
-    // 激活态 - 使用主题色
-    &.active {
-      background: var(--el-color-primary);
-      border-color: var(--el-color-primary);
-      color: #fff;
-
-      a {
-        color: #fff;
         font-weight: 600;
-      }
 
-      .el-icon {
-        color: rgba(255, 255, 255, 0.8);
-
-        &:hover {
-          color: #fff;
-          background: rgba(255, 255, 255, 0.15);
-          border-radius: 50%;
+        &::before {
+          background-color: var(--el-color-primary);
         }
       }
     }
@@ -545,19 +561,25 @@ $transition: 150ms ease;
       opacity: 1;
     }
 
-    // 关闭图标
+    // 关闭图标：默认隐藏，悬浮 / 选中时显示
     :deep(.el-icon) {
       display: flex;
       align-items: center;
-      color: #C0C4CC;
+      color: #9ca3af;
       font-size: 12px;
-      transition: color $transition, background $transition;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity $transition, color $transition, background $transition;
 
       &:hover {
-        color: #F56C6C;
-        background: rgba(245, 108, 108, 0.1);
-        border-radius: 50%;
+        color: #f56c6c;
+        background: rgba(245, 108, 108, 0.12);
       }
+    }
+
+    &:hover :deep(.el-icon),
+    &.active :deep(.el-icon) {
+      opacity: 1;
     }
   }
 }

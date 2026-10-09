@@ -75,7 +75,7 @@
                     <JobConditionLabel v-model="row.conditionValue" />
                 </template>
             </el-table-column>
-            <el-table-column prop="args" label="参数" min-width="120" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="args" label="自定义参数" min-width="120" show-overflow-tooltip></el-table-column>
             <!-- <el-table-column prop="startAt" label="开始时间" min-width="200"></el-table-column>
             <el-table-column prop="endAt" label="结束时间" min-width="200"></el-table-column> -->
 
