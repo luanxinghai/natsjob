@@ -31,19 +31,9 @@
                 {{ jobName }}
             </n-button>
             <el-divider direction="vertical" />
-            <div class="stat-panel">
-                <div class="result-stat">
-                    <span class="stat-item stat-create">运行中 {{ stat.create }}</span>
-                    <span class="stat-item stat-success">成功 {{ stat.success }}</span>
-                    <span class="stat-item stat-fail">失败 {{ stat.fail }}</span>
-                    <span class="stat-item stat-expired">过期 {{ stat.expired }}</span>
-                    <span class="stat-item stat-cancel">取消 {{ stat.cancel }}</span>
-                </div>
-                <SpaceGap />
-                <n-button size="small" @click="loadStat">
-                    刷新统计
-                </n-button>
-            </div>
+            <JobResultStat ref="statRef" :job-id="router.params.jobId" :job-name="jobName"
+                :reason="searchForm.reason" :monitor-status="searchForm.monitorStatus"
+                :monitor-payload="searchForm.monitorPayload" />
         </template>
         <template #column>
             <el-table-column type="index" width="50"></el-table-column>
@@ -120,6 +110,7 @@ import { $success, $confirm } from "@/utils/alert"
 const router = useRoute();
 const subResultListRef = ref();
 const resultDetailRef = ref();
+const statRef = ref();
 const jobName = ref(router.params.jobName)
 const {
     table,
@@ -154,38 +145,8 @@ const statusOptions = [
     { label: "取消", value: "cancel" },
 ]
 
-// 各状态统计
-const stat = reactive({
-    create: 0,
-    success: 0,
-    fail: 0,
-    expired: 0,
-    cancel: 0,
-})
-
-const loadStat = async () => {
-    try {
-        const res = await post("natsjob/api/app-job-result/stat", {
-            jobId: router.params.jobId,
-            reason: searchForm.reason,
-            monitorStatus: searchForm.monitorStatus,
-            monitorPayload: searchForm.monitorPayload,
-        })
-        if (res) {
-            stat.create = res.create ?? 0
-            stat.success = res.success ?? 0
-            stat.fail = res.fail ?? 0
-            stat.expired = res.expired ?? 0
-            stat.cancel = res.cancel ?? 0
-        }
-    } catch (e) {
-        console.error("load stat error", e)
-    }
-}
-
 onMounted(() => {
     useTableSearch();
-    loadStat();
 });
 
 const showSubList = (row) => {
@@ -214,67 +175,11 @@ const cancelTask = (row) => {
             // 失败信息由全局拦截器提示
         } finally {
             useTableSearch()
-            loadStat()
+            statRef.value?.refresh()
         }
     }).catch(() => { })
 }
 
 </script>
 
-<style lang="scss" scoped>
-.stat-panel {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 4px 12px;
-    background: #f5f7fa;
-    // border: 1px solid #e4e7ed;
-    border-radius: 8px;
-}
-
-.result-stat {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-
-    .stat-item {
-        font-size: 13px;
-        padding: 2px 10px;
-        border-radius: 12px;
-        line-height: 20px;
-        white-space: nowrap;
-    }
-
-    .stat-create {
-        color: #409eff;
-        background: #ecf5ff;
-    }
-
-    .stat-success {
-        color: #67c23a;
-        background: #f0f9eb;
-    }
-
-    .stat-fail {
-        color: #f56c6c;
-        background: #fef0f0;
-    }
-
-    .stat-expired {
-        color: #e6a23c;
-        background: #fdf6ec;
-    }
-
-    .stat-cancel {
-        color: #909399;
-        background: #f4f4f5;
-    }
-}
-
-.op-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-</style>
+<style lang="scss" scoped></style>
